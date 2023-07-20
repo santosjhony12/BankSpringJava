@@ -1,9 +1,6 @@
 package com.bank.BankSpring;
 
-import com.bank.BankSpring.Model.Cliente;
-import com.bank.BankSpring.Model.ClienteNotFoundException;
-import com.bank.BankSpring.Model.ClienteRepository;
-import com.bank.BankSpring.Model.ClienteService;
+import com.bank.BankSpring.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,12 +23,56 @@ public class BankSpringApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		/*INSTANCIAS*/
+		Cliente cliente = new Cliente();
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Entre com o seu cpf: ");
-		String cpf = scanner.next();
-		Cliente cliente = new Cliente();
+		/*VARIAVEIS IMPORTANTES*/
+		int acesso = 2;
+
+		FuncoesBanco.tracejado();
+		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
+		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");
+		System.out.println("1 - Cadastro\n2 - Entrar na sua conta\n3 - SAIR");
+		String resposta = scanner.next();
+
+		FuncoesBanco.tracejado();
+		FuncoesBanco funcoesBanco = new FuncoesBanco();
+
+		if (resposta.equals("1")){
+			System.out.println("\nVOCÊ FEZ UMA ÓTIMA ESCOLHA EM FAZER PARTE DESSE NEGÓCIO!\nVAMOS COMEÇAR O SEU CADASTRO!!");
+
+			System.out.println("\nDigite o seu nome: ");
+			String nome = scanner.next();
+			cliente.setName(nome);
+
+			System.out.println("\nDigite o seu CPF: ");
+			String cpf = scanner.next();
+			cliente.setCpf(cpf);
+
+			System.out.println("\nDigite sua senha:");
+			String senha = scanner.next();
+			cliente.setSenha(senha);
+			clienteService.inserirCliente(cliente);
+
+			System.out.println("\nEstamos registrando...");
+			System.out.println("\nCADASTRO REALIZADO COM SUCESSO!!");
+			System.out.println("\n\nPara iniciar sessão, digite 1. Para sair, digite 2: ");
+			resposta = scanner.next();
+
+			if (resposta.equals("1")){
+				acesso = funcoesBanco.login();
+			}
+
+		} else if (resposta.equals("2")) {
+			System.out.println("BEM VINDO DE VOLTA! ESTAMOS FELIZES EM TE RECEBE-LO NOVAMENTE");
+			acesso = funcoesBanco.login();
+		}else{
+			System.out.println("ATÉ MAIS");
+		}
+
+		System.out.println(acesso);
+
 		/*
 		* PARA INSERIR O CLIENTE BASTA CHAMAR A FUNÇÃO INSERIRCLIENTE DO
 		* CLIENTESERVICE E PASSAR POR PARAMETRO A CLASSE CLIENTE. OBS.: NÃO PODE ESQUECER DE SETAR OS VALORES DA CLASSE
