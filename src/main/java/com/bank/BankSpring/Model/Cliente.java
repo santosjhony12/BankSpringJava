@@ -20,6 +20,4 @@ public class Cliente {
     private String cpf;
     @Column(name = "senha")
     private String senha;
-
-
 }

@@ -21,6 +21,18 @@ public class BankSpringApplication implements CommandLineRunner {
 		SpringApplication.run(BankSpringApplication.class, args);
 	}
 
+	Cliente cliente = new Cliente();
+	public int login(String cpf, String senha){
+		cliente = clienteService.buscarClientePorCpf(cpf);
+		if (cliente != null && senha.equals(cliente.getSenha())){
+			System.out.println("\nAcesso Liberado");
+			return 1;
+		}else{
+			System.out.println("\nAcesso Negado!");
+			return 0;
+		}
+	}
+
 	@Override
 	public void run(String... args) throws Exception {
 		/*INSTANCIAS*/
@@ -28,16 +40,15 @@ public class BankSpringApplication implements CommandLineRunner {
 		Scanner scanner = new Scanner(System.in);
 
 		/*VARIAVEIS IMPORTANTES*/
-		int acesso = 2;
+		int acesso = 0;
 
-		FuncoesBanco.tracejado();
+		tracejado();
 		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
 		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");
 		System.out.println("1 - Cadastro\n2 - Entrar na sua conta\n3 - SAIR");
 		String resposta = scanner.next();
 
-		FuncoesBanco.tracejado();
-		FuncoesBanco funcoesBanco = new FuncoesBanco();
+		tracejado();
 
 		if (resposta.equals("1")){
 			System.out.println("\nVOCÊ FEZ UMA ÓTIMA ESCOLHA EM FAZER PARTE DESSE NEGÓCIO!\nVAMOS COMEÇAR O SEU CADASTRO!!");
@@ -55,23 +66,54 @@ public class BankSpringApplication implements CommandLineRunner {
 			cliente.setSenha(senha);
 			clienteService.inserirCliente(cliente);
 
+			String conta = "0";
+			while(conta!="1" & conta!="2" & conta !="3"){
+				System.out.println("\nQual tipo de conta gostaria de ter: ");
+				System.out.println("\n1 - POUPANÇA\n2 - CORRENTE\n3 - POUPANÇA E CORRENTE");
+				conta = scanner.next();
+				if (conta!="1" & conta!="2" & conta !="3"){
+					System.out.println("OPÇÃO INVALIDA!");
+				}
+			}
+
+
+
 			System.out.println("\nEstamos registrando...");
 			System.out.println("\nCADASTRO REALIZADO COM SUCESSO!!");
+
 			System.out.println("\n\nPara iniciar sessão, digite 1. Para sair, digite 2: ");
 			resposta = scanner.next();
 
 			if (resposta.equals("1")){
-				acesso = funcoesBanco.login();
+				System.out.println("Digite seu CPF: ");
+				String cpfScanner = scanner.next();
+
+				System.out.println("Digite sua senha: ");
+				String senhaScanner = scanner.next();
+				acesso = login(cpfScanner, senhaScanner);
 			}
 
 		} else if (resposta.equals("2")) {
 			System.out.println("BEM VINDO DE VOLTA! ESTAMOS FELIZES EM TE RECEBE-LO NOVAMENTE");
-			acesso = funcoesBanco.login();
+			System.out.println("Digite seu CPF: ");
+			String cpfScanner = scanner.next();
+
+			System.out.println("Digite sua senha: ");
+			String senhaScanner = scanner.next();
+			acesso = login(cpfScanner, senhaScanner);
 		}else{
 			System.out.println("ATÉ MAIS");
 		}
 
-		System.out.println(acesso);
+		if (acesso == 1){
+			System.out.println("Vamos trabalhar");
+		}else{
+			System.out.println("Que triste");
+		}
+
+
+
+
 
 		/*
 		* PARA INSERIR O CLIENTE BASTA CHAMAR A FUNÇÃO INSERIRCLIENTE DO
@@ -121,4 +163,8 @@ public class BankSpringApplication implements CommandLineRunner {
 		}
 		*/
 	}
+	public static void tracejado(){
+		System.out.println("====================================================");
+	}
+
 }
