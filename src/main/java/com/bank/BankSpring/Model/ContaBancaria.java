@@ -1,8 +1,6 @@
 package com.bank.BankSpring.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table
 public class ContaBancaria {
-    @Id
-    private int id;
-    @Column(name = "numeroConta")
-    private String numeroConta;
+    @Id @Column(name = "numeroConta") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long numeroConta;
     @Column(name = "saldo")
     private double saldo;
 

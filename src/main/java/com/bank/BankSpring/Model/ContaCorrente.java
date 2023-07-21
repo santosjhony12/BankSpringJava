@@ -1,34 +1,10 @@
 package com.bank.BankSpring.Model;
 
+import jakarta.persistence.Column;
+
 public class ContaCorrente extends ContaBancaria {
+    @Column(name = "tipo")
     private String tipo;
+    @Column(name = "chequeEspecial")
     private double chequeEspecial;
-    private double taxa;
-
-
-    public void setChequeEspecial(double chequeEspecial) {
-        this.chequeEspecial = chequeEspecial;
-    }
-
-    public double getChequeEspecial() {
-        return chequeEspecial;
-    }
-    public void setTaxa(double taxa) {
-        this.taxa = taxa;
-    }
-    public double getTaxa() {
-        return taxa;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-    public String getTipo() {
-        return tipo;
-    }
-
-    @Override
-    public void sacar(double valor){
-        this.setSaldo(this.getSaldo()-(valor+ valor*this.taxa));
-    }
 }

@@ -67,15 +67,21 @@ public class BankSpringApplication implements CommandLineRunner {
 			clienteService.inserirCliente(cliente);
 
 			String conta = "0";
-			while(conta!="1" & conta!="2" & conta !="3"){
+			while(!conta.equals("1") && !conta.equals("2") && !conta.equals("3")){
 				System.out.println("\nQual tipo de conta gostaria de ter: ");
 				System.out.println("\n1 - POUPANÇA\n2 - CORRENTE\n3 - POUPANÇA E CORRENTE");
 				conta = scanner.next();
-				if (conta!="1" & conta!="2" & conta !="3"){
+				if (!conta.equals("1") && !conta.equals("2") && !conta.equals("3")){
 					System.out.println("OPÇÃO INVALIDA!");
 				}
 			}
+			if (conta.equals("1")){
 
+			}else if(conta.equals("2")){
+
+			}else if(conta.equals("3")){
+
+			}
 
 
 			System.out.println("\nEstamos registrando...");
