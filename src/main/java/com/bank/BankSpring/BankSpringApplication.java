@@ -39,9 +39,16 @@ public class BankSpringApplication implements CommandLineRunner {
 		Cliente cliente = new Cliente();
 		Scanner scanner = new Scanner(System.in);
 
+		ContaPoupanca contaPoupanca = new ContaPoupanca();
+
+
+
+		contaPoupanca.setTipoConta("P");
+		contaPoupanca.setCpf("43159986802");
+		contaPoupanca.setSaldo(0);
 		/*VARIAVEIS IMPORTANTES*/
 		int acesso = 0;
-
+/*
 		tracejado();
 		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
 		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");

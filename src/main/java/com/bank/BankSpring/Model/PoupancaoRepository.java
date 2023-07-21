@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PoupancaoRepository extends JpaRepository<ContaPoupanca,Long> {
+    ContaBancaria findByCpf(String cpf);
 }

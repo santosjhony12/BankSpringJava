@@ -11,17 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table
+@Table(name = "CONTA_BANCARIA")
 public class ContaBancaria {
-    @Id @Column(name = "numeroConta") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(name = "NUMERO_CONTA") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numeroConta;
-    @Column(name = "saldo")
+    @Column(name = "SALDO")
     private double saldo;
-
-    public void sacar(double valor){
-        this.saldo -= valor;
-    }
-    public void depositar (double valor){
-        this.saldo += valor;
-    }
+    @Column(name = "CPF")
+    private String cpf;
 }

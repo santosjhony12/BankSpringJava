@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContaPoupanca extends ContaBancaria{
-    @Column(name = "tipo")
+    @Column(name = "TIPO_CONTA")
     private String tipoConta;
 }
