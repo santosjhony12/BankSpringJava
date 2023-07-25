@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CorrenteRepository extends JpaRepository <ContaCorrente, Long> {
+    ContaCorrente findByCpf(String cpf);
 }

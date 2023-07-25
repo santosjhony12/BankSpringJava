@@ -2,7 +2,6 @@ package com.bank.BankSpring;
 
 import com.bank.BankSpring.Model.Cliente.Cliente;
 import com.bank.BankSpring.Model.Cliente.ClienteService;
-import com.bank.BankSpring.Model.ContaBancaria.ContaBancaria;
 import com.bank.BankSpring.Model.ContaCorrente.ContaCorrente;
 import com.bank.BankSpring.Model.ContaCorrente.CorrenteService;
 import com.bank.BankSpring.Model.ContaPoupanca.ContaPoupanca;
@@ -47,26 +46,20 @@ public class BankSpringApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		/*INSTANCIAS*/
+		String cpfScanner = null;
 		Cliente cliente = new Cliente();
 		ContaPoupanca contaPoupanca = new ContaPoupanca();
 		ContaCorrente contaCorrente	= new ContaCorrente();
 		Scanner scanner = new Scanner(System.in);
-		/*TESTES*/
-		/*
-		try{
-			contaCorrente.setTipo("C");
-			contaCorrente.setCpf("43159986802");
-			contaCorrente.setSaldo(0);
-			contaCorrente.setChequeEspecial(0);
-			correnteService.inserirContaCorrente(contaCorrente);
-			System.out.println("CONTA REGISTRADA COM SUCESSO");
-		}catch (Exception e){
-			e.printStackTrace();
-		}*/
 
-		/*VARIAVEIS IMPORTANTES*/
+		/*DECLARAÇÃO DE VARIAVEIS DE CONTROLE*/
 		int acesso = 0;
-/*
+		String acao;
+
+
+
+
+		/* INICIO DO PROGRAMAR */
 		tracejado();
 		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
 		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");
@@ -77,9 +70,9 @@ public class BankSpringApplication implements CommandLineRunner {
 
 		if (resposta.equals("1")){
 			System.out.println("\nVOCÊ FEZ UMA ÓTIMA ESCOLHA EM FAZER PARTE DESSE NEGÓCIO!\nVAMOS COMEÇAR O SEU CADASTRO!!");
-
+			scanner.nextLine();
 			System.out.println("\nDigite o seu nome: ");
-			String nome = scanner.next();
+			String nome = scanner.nextLine();
 			cliente.setName(nome);
 
 			System.out.println("\nDigite o seu CPF: ");
@@ -101,11 +94,48 @@ public class BankSpringApplication implements CommandLineRunner {
 				}
 			}
 			if (conta.equals("1")){
-
+				try{
+					contaPoupanca.setTipo("P");
+					contaPoupanca.setCpf(cpf);
+					contaPoupanca.setSaldo(0);
+					poupancaService.inserirContaPoupanca(contaPoupanca);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
 			}else if(conta.equals("2")){
-
+				try {
+					contaCorrente.setTipo("C");
+					contaCorrente.setChequeEspecial(100);
+					contaCorrente.setSaldo(0);
+					contaCorrente.setCpf(cpf);
+					correnteService.inserirContaCorrente(contaCorrente);
+					System.out.println("Parabéns! Você ganhou um cheque especial de R$ 100,00");;
+				}catch (Exception e){
+					e.printStackTrace();
+				}
 			}else if(conta.equals("3")){
-
+				try{
+					try{
+						contaPoupanca.setTipo("P");
+						contaPoupanca.setCpf(cpf);
+						contaPoupanca.setSaldo(0);
+						poupancaService.inserirContaPoupanca(contaPoupanca);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+					try {
+						contaCorrente.setTipo("C");
+						contaCorrente.setChequeEspecial(100);
+						contaCorrente.setSaldo(0);
+						contaCorrente.setCpf(cpf);
+						correnteService.inserirContaCorrente(contaCorrente);
+						System.out.println("Parabéns! Você ganhou um cheque especial de R$ 100,00");;
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}catch (Exception e){
+					e.printStackTrace();
+				}
 			}
 
 
@@ -117,7 +147,7 @@ public class BankSpringApplication implements CommandLineRunner {
 
 			if (resposta.equals("1")){
 				System.out.println("Digite seu CPF: ");
-				String cpfScanner = scanner.next();
+				cpfScanner = scanner.next();
 
 				System.out.println("Digite sua senha: ");
 				String senhaScanner = scanner.next();
@@ -127,7 +157,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		} else if (resposta.equals("2")) {
 			System.out.println("BEM VINDO DE VOLTA! ESTAMOS FELIZES EM TE RECEBE-LO NOVAMENTE");
 			System.out.println("Digite seu CPF: ");
-			String cpfScanner = scanner.next();
+			cpfScanner = scanner.next();
 
 			System.out.println("Digite sua senha: ");
 			String senhaScanner = scanner.next();
@@ -136,8 +166,22 @@ public class BankSpringApplication implements CommandLineRunner {
 			System.out.println("ATÉ MAIS");
 		}
 
+		tracejado();
+
 		if (acesso == 1){
-			System.out.println("Vamos trabalhar");
+			cliente = clienteService.buscarClientePorCpf(cpfScanner);
+			/*É NECESSÁRIO VERIFICAR QUAIS TIPOS DE CONTA O USUÁRIO TEM PARA DEPOIS EXIBIR AS INFORMAÇÕES COMO SALDO ETC.*/
+			contaPoupanca = poupancaService.buscarDadosPorCpf(cpfScanner);
+			contaCorrente = correnteService.buscarCorrentePorCpf(cpfScanner);
+			System.out.println("\nNome: "+cliente.getName()+"\nCPF:"+cliente.getCpf());
+			tracejado();
+			questionarioLogado();
+			tracejado();
+			acao = scanner.next();
+
+			if (acao.equals("1")){
+				System.out.println("SALDO: R$ ");
+			}
 		}else{
 			System.out.println("Que triste");
 		}
@@ -194,8 +238,19 @@ public class BankSpringApplication implements CommandLineRunner {
 		}
 		*/
 	}
+
+	/* FUNÇÕES STATICAS PARA VISUAL*/
 	public static void tracejado(){
 		System.out.println("====================================================");
+	}
+	public static void questionarioLogado(){
+		System.out.println("\nO que deseja realizar?");
+		System.out.println("1 - Consultar Saldo");
+		System.out.println("2 - Transfência");
+		System.out.println("3 - Sacar");
+		System.out.println("4 - Alterar Senha");
+		System.out.println("5 - Excluir conta");
+		System.out.println("6 - SAIR");
 	}
 
 }

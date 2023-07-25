@@ -13,4 +13,7 @@ public class CorrenteService {
     public void inserirContaCorrente(ContaCorrente contaCorrente){
         correnteRepository.save(contaCorrente);
     }
+    public ContaCorrente buscarCorrentePorCpf(String cpf){
+        return correnteRepository.findByCpf(cpf);
+    }
 }

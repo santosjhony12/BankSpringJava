@@ -12,4 +12,7 @@ public class PoupancaService {
     public void inserirContaPoupanca(ContaPoupanca contaPoupanca){
         poupancaRepository.save(contaPoupanca);
     }
+    public ContaPoupanca buscarDadosPorCpf(String cpf){
+        return poupancaRepository.findByCpf(cpf);
+    }
 }
