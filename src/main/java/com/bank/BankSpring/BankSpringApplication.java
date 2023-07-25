@@ -1,21 +1,32 @@
 package com.bank.BankSpring;
 
-import com.bank.BankSpring.Model.*;
+import com.bank.BankSpring.Model.Cliente.Cliente;
+import com.bank.BankSpring.Model.Cliente.ClienteService;
+import com.bank.BankSpring.Model.ContaBancaria.ContaBancaria;
+import com.bank.BankSpring.Model.ContaCorrente.ContaCorrente;
+import com.bank.BankSpring.Model.ContaCorrente.CorrenteService;
+import com.bank.BankSpring.Model.ContaPoupanca.ContaPoupanca;
+import com.bank.BankSpring.Model.ContaPoupanca.PoupancaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
 public class BankSpringApplication implements CommandLineRunner {
+	/*INJEÇÃO DE DEPENDENCIA - É NECESSÁRIA TODA VEZ QUE FOR INSERIR UM SERVIÇO*/
 	private final ClienteService clienteService;
+	private final PoupancaService poupancaService;
+	private final CorrenteService correnteService;
+
 
 	@Autowired
-	public BankSpringApplication(ClienteService clienteService){
+	public BankSpringApplication(ClienteService clienteService, PoupancaService poupancaService, CorrenteService correnteService){
 		this.clienteService = clienteService;
+		this.poupancaService = poupancaService;
+		this.correnteService = correnteService;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(BankSpringApplication.class, args);
@@ -37,15 +48,22 @@ public class BankSpringApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		/*INSTANCIAS*/
 		Cliente cliente = new Cliente();
-		Scanner scanner = new Scanner(System.in);
-
 		ContaPoupanca contaPoupanca = new ContaPoupanca();
+		ContaCorrente contaCorrente	= new ContaCorrente();
+		Scanner scanner = new Scanner(System.in);
+		/*TESTES*/
+		/*
+		try{
+			contaCorrente.setTipo("C");
+			contaCorrente.setCpf("43159986802");
+			contaCorrente.setSaldo(0);
+			contaCorrente.setChequeEspecial(0);
+			correnteService.inserirContaCorrente(contaCorrente);
+			System.out.println("CONTA REGISTRADA COM SUCESSO");
+		}catch (Exception e){
+			e.printStackTrace();
+		}*/
 
-
-
-		contaPoupanca.setTipoConta("P");
-		contaPoupanca.setCpf("43159986802");
-		contaPoupanca.setSaldo(0);
 		/*VARIAVEIS IMPORTANTES*/
 		int acesso = 0;
 /*

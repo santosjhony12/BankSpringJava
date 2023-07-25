@@ -1,4 +1,4 @@
-package com.bank.BankSpring.Model;
+package com.bank.BankSpring.Model.Cliente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

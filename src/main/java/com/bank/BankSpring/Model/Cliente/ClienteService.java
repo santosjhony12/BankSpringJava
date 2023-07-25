@@ -1,5 +1,6 @@
-package com.bank.BankSpring.Model;
+package com.bank.BankSpring.Model.Cliente;
 
+import com.bank.BankSpring.Model.Cliente.Cliente;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,7 +10,6 @@ public class ClienteService {
     public ClienteService(ClienteRepository clienteRepository){
         this.clienteRepository = clienteRepository;
     }
-
     public void inserirCliente(Cliente cliente){
         clienteRepository.save(cliente);
     }
