@@ -26,4 +26,11 @@ public class ContaBancaria {
     @Column(name = "TIPO_CONTA")
     private String tipo;
 
+    public void transferir(double valor){
+        this.saldo -= valor;
+    }
+    public void sacar(double valor){
+        this.saldo -= valor;
+    }
+
 }

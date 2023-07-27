@@ -19,4 +19,10 @@ public class CorrenteService {
     public ContaCorrente findByCpf(String cpf) {
         return correnteRepository.findByCpf(cpf);
     }
+    public ContaCorrente transferir(ContaCorrente contaCorrente){
+        return  correnteRepository.save(contaCorrente);
+    }
+    public ContaCorrente sacar(ContaCorrente contaCorrente){
+        return correnteRepository.save(contaCorrente);
+    }
 }

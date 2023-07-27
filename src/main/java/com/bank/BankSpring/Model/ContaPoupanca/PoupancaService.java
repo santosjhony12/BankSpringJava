@@ -15,4 +15,10 @@ public class PoupancaService {
     public ContaPoupanca buscarDadosPorCpf(String cpf){
         return poupancaRepository.findByCpf(cpf);
     }
+    public ContaPoupanca transferir(ContaPoupanca contaPoupanca){
+        return poupancaRepository.save(contaPoupanca);
+    }
+    public ContaPoupanca sacar(ContaPoupanca contaPoupanca){
+        return poupancaRepository.save(contaPoupanca);
+    }
 }

@@ -171,107 +171,380 @@ public class BankSpringApplication implements CommandLineRunner {
 			contaPoupanca = poupancaService.buscarDadosPorCpf(cpfScanner);
 			contaCorrente = correnteService.findByCpf(cpfScanner);
 			tracejado();
-			System.out.println("\nBEM VINDO "+cliente.getName()+"\nCPF:" + cliente.getCpf());
-			questionarioLogado();
-			acao = scanner.next();
-			tracejado();
+			System.out.println("\nBEM VINDO " + cliente.getName() + "\nCPF:" + cliente.getCpf());
+			acao = "1";
 
-			if (acao.equals("1")) {
-				if (contaPoupanca != null & contaCorrente != null) {
-					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
-					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
-					System.out.println("VALOR CHEQUE ESPECIAL: R$ "+ contaCorrente.getChequeEspecial());
-
-					/*CALCULO SALDO TOTAL*/
-					chequeEspecial = contaCorrente.getChequeEspecial();
-					saldoPoupanca = contaPoupanca.getSaldo();
-					saldoCorrente = contaCorrente.getSaldo();
-					saldoTotal = saldoPoupanca+saldoCorrente+chequeEspecial;
-					System.out.println("SALDO TOTAL: R$ "+saldoTotal);
-
-				} else if (contaPoupanca != null) {
-					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
-				} else if (contaCorrente != null) {
-					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
-					System.out.println("VALOR CHEQUE ESPECIAL: R$ "+ contaCorrente.getChequeEspecial());
-
-					/*CALCULO SALDO TOTAL*/
-					chequeEspecial = contaCorrente.getChequeEspecial();
-					saldoCorrente = contaCorrente.getSaldo();
-					saldoTotal = saldoCorrente+chequeEspecial;
-					System.out.println("SALDO TOTAL: R$ "+saldoTotal);
+			while (!acao.equals("1") || !acao.equals("2") || !acao.equals("3") || !acao.equals("4") || !acao.equals("5") || !acao.equals("6")) {
+				questionarioLogado();
+				acao = scanner.next();
+				if (acao.equals("6")){
+					tracejado();
+					System.out.println("NOS VEMOS EM BREVE. ATÉ MAIS!\n");
+					tracejado();
+					break;
 				}
 				tracejado();
-			} else if (acao.equals("2")) {
-				if (contaPoupanca != null & contaCorrente != null){
-					System.out.printf("Selecione qual conta deseja realizar a transferência: \n1 - Corrente\n2 - Poupança");
-					acao = scanner.next();
-					System.out.printf("Informe a conta que deseja transferir: ");
-					String contaTransferir = scanner.next();
-					double valorTransferencia = 0;
 
-					if (acao.equals("1")){
-						System.out.println("Saldo disponível: R$ "+contaCorrente.getSaldo());
-						saldoCorrente = contaCorrente.getSaldo();
+				/*OPÇÃO 1 - VER SALDO*/
+				if (acao.equals("1")) {
+					if (contaPoupanca != null & contaCorrente != null) {
+						System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
+						System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
+						System.out.println("VALOR CHEQUE ESPECIAL: R$ " + contaCorrente.getChequeEspecial());
 
-						while(valorTransferencia > saldoCorrente || valorTransferencia <= 0){
-							System.out.println("Informe o valor da transferência: ");
-							valorTransferencia = scanner.nextDouble();
-
-							if (valorTransferencia > saldoCorrente){
-								System.out.println("O valor é maior que o há disponível.");
-							}
-							else if (valorTransferencia<=0){
-								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
-							}
-							else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
-								System.out.println("Transferido.");
-							}
-						}
-					} else if (acao.equals("2")) {
-						System.out.printf("SALDO DISPONIVEL: R$ "+contaPoupanca.getSaldo());
+						/*CALCULO SALDO TOTAL*/
+						chequeEspecial = contaCorrente.getChequeEspecial();
 						saldoPoupanca = contaPoupanca.getSaldo();
-						while(valorTransferencia > saldoPoupanca || valorTransferencia <= 0){
-							System.out.println("Informe o valor da transferência: ");
-							valorTransferencia = scanner.nextDouble();
+						saldoCorrente = contaCorrente.getSaldo();
+						saldoTotal = saldoPoupanca + saldoCorrente + chequeEspecial;
+						System.out.println("SALDO TOTAL: R$ " + saldoTotal);
 
-							if (valorTransferencia > saldoPoupanca){
-								System.out.println("O valor é maior que o há disponível.");
-							}
-							else if (valorTransferencia<=0){
-								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
-							}
-							else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
-								System.out.println("Transferido.");
-							}
-						}
+					} else if (contaPoupanca != null) {
+						System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
+					} else if (contaCorrente != null) {
+						System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
+						System.out.println("VALOR CHEQUE ESPECIAL: R$ " + contaCorrente.getChequeEspecial());
+
+						/*CALCULO SALDO TOTAL*/
+						chequeEspecial = contaCorrente.getChequeEspecial();
+						saldoCorrente = contaCorrente.getSaldo();
+						saldoTotal = saldoCorrente + chequeEspecial;
+						System.out.println("SALDO TOTAL: R$ " + saldoTotal);
 					}
-
-				}else if(contaCorrente != null){
-					System.out.printf("Informe a conta que deseja transferir: ");
-					String contaTransferir = scanner.next();
-
-					double valorTransferencia = 0;
-					saldoCorrente = contaCorrente.getSaldo();
-
-					while(valorTransferencia > saldoCorrente || valorTransferencia <= 0){
-						System.out.println("Informe o valor da transferência: ");
-						valorTransferencia = scanner.nextDouble();
-
-						if (valorTransferencia > saldoCorrente){
-							System.out.println("O valor é maior que o há disponível.");
-						}
-						else if (valorTransferencia<=0){
-							System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
-						}
-						else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
-							System.out.println("Transferido.");
-						}
-					}
+					tracejado();
 				}
 
-			}
+				/*OPÇÃO 2 - TRANSFERENCIA*/
+				else if (acao.equals("2")) {
 
+					/*SE TIVER AS DUAS CONTAS HÁ UM QUESTIONAMENTO DE ESCOLHA DE CONTA*/
+					if (contaPoupanca != null & contaCorrente != null) {
+						System.out.printf("Selecione qual conta deseja realizar a transferência: \n1 - Corrente\n2 - Poupança\n");
+						acao = scanner.next();
+						System.out.printf("Informe a conta que deseja transferir: ");
+						String contaTransferir = scanner.next();
+						double valorTransferencia = 0;
+
+						/*CONTA CORRENTE*/
+						if (acao.equals("1")) {
+							System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
+							saldoCorrente = contaCorrente.getSaldo();
+
+							while (valorTransferencia > saldoCorrente || valorTransferencia <= 0) {
+								System.out.println("\nInforme o valor da transferência: ");
+								valorTransferencia = scanner.nextDouble();
+
+								if (valorTransferencia > saldoCorrente) {
+									System.out.println("O valor é maior que o há disponível.");
+								} else if (valorTransferencia <= 0) {
+									System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+								} else if (valorTransferencia > 0 & valorTransferencia <= saldoCorrente) {
+									contaCorrente.transferir(valorTransferencia);
+									correnteService.transferir(contaCorrente);
+									System.out.printf("\n");
+									tracejado();
+									System.out.println("\nTransferência realizada com sucesso..");
+								}
+							}
+						}
+						/*CONTA POUPANÇA*/
+						else if (acao.equals("2")) {
+							System.out.printf("SALDO DISPONIVEL: R$ " + contaPoupanca.getSaldo());
+							saldoPoupanca = contaPoupanca.getSaldo();
+							while (valorTransferencia > saldoPoupanca || valorTransferencia <= 0) {
+								System.out.println("\nInforme o valor da transferência: ");
+								valorTransferencia = scanner.nextDouble();
+
+								if (valorTransferencia > saldoPoupanca) {
+									System.out.println("O valor é maior que o há disponível.");
+								} else if (valorTransferencia <= 0) {
+									System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+								} else if (valorTransferencia > 0 & valorTransferencia <= saldoPoupanca) {
+									System.out.printf("\n");
+									contaPoupanca.transferir(valorTransferencia);
+									poupancaService.transferir(contaPoupanca);
+									tracejado();
+									System.out.println("\nTransferência realizada com sucesso..");
+								}
+							}
+						}
+
+					}
+					/*APENAS CONTA CORRENTE*/
+					else if (contaCorrente != null) {
+						System.out.printf("Informe a conta que deseja transferir: ");
+						String contaTransferir = scanner.next();
+
+						double valorTransferencia = 0;
+						saldoCorrente = contaCorrente.getSaldo();
+
+						while (valorTransferencia > saldoCorrente || valorTransferencia <= 0) {
+							System.out.println("\nInforme o valor da transferência: ");
+							valorTransferencia = scanner.nextDouble();
+
+							if (valorTransferencia > saldoCorrente) {
+								System.out.println("O valor é maior que o há disponível.");
+							} else if (valorTransferencia <= 0) {
+								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+							} else if (valorTransferencia > 0 & valorTransferencia <= saldoCorrente) {
+								contaCorrente.transferir(valorTransferencia);
+								correnteService.transferir(contaCorrente);
+								System.out.printf("\n");
+								tracejado();
+								System.out.println("\nTransferência realizada com sucesso..");
+							}
+						}
+					} else if (contaPoupanca != null) {
+						System.out.printf("Informe a conta que deseja transferir: ");
+						String contaTransferir = scanner.next();
+
+						double valorTransferencia = 0;
+						saldoPoupanca = contaPoupanca.getSaldo();
+
+						while (valorTransferencia > saldoPoupanca || valorTransferencia <= 0) {
+							System.out.println("Informe o valor da transferência: ");
+							valorTransferencia = scanner.nextDouble();
+
+							if (valorTransferencia > saldoCorrente) {
+								System.out.println("O valor é maior do que há disponível.");
+							} else if (valorTransferencia <= 0) {
+								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+							} else if (valorTransferencia > 0 & valorTransferencia <= saldoPoupanca) {
+								contaPoupanca.transferir(valorTransferencia);
+								poupancaService.transferir(contaPoupanca);
+								System.out.printf("\n");
+								tracejado();
+								System.out.println("\nTransferência realizada com sucesso..");
+							}
+						}
+
+					}
+
+				}
+				/*AÇÃO 3 - SACAR*/
+				else if (acao.equals("3")) {
+					double valorSaque = 0;
+					double cheque = 0;
+
+					if (contaPoupanca != null & contaCorrente != null) {
+						System.out.printf("Selecione qual conta deseja realizar o saque: \n1 - Corrente\n2 - Poupança\n3 - SAIR\n");
+						acao = scanner.next();
+
+						if (acao.equals("3")){
+							break;
+						}
+
+						/*CONTA CORRENTE*/
+						if (acao.equals("1")) {
+							saldoCorrente = contaCorrente.getSaldo();
+							cheque = contaCorrente.getChequeEspecial();
+
+							if(cheque > 0){
+								while (!acao.equals("1") || !acao.equals("2")){
+									tracejado();
+									System.out.println("\nO que deseja sacar?\n1 - O valor da conta\n2 - Cheque Especial\n3 - SAIR");
+									acao = scanner.next();
+
+									if (acao.equals("3")){
+										break;
+									}
+
+									if (acao.equals("1")){
+										if(contaCorrente.getSaldo()<=0){
+											System.out.println("Saldo Indisponivel para Saque.");
+											break;
+										}
+										System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
+
+										while (valorSaque > saldoCorrente || valorSaque <= 0) {
+											System.out.println("\nInforme o valor do saque: ");
+											valorSaque = scanner.nextDouble();
+
+											if (valorSaque > saldoCorrente) {
+												System.out.println("O valor é maior do que há disponível.");
+											} else if (valorSaque <= 0) {
+												System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+											} else if (valorSaque > 0 & valorSaque <= saldoCorrente) {
+												contaCorrente.sacar(valorSaque);
+												correnteService.sacar(contaCorrente);
+												System.out.printf("\n");
+												tracejado();
+												System.out.println("\nSaque realizado com sucesso..");
+											}
+										}
+
+									}
+									else if (acao.equals("2")){
+										System.out.println("Saldo do Cheque Especial: R$ " + contaCorrente.getChequeEspecial());
+
+										cheque = contaCorrente.getChequeEspecial();
+
+										while (valorSaque > cheque || valorSaque <= 0) {
+											System.out.println("\nInforme o valor do saque: ");
+											valorSaque = scanner.nextDouble();
+
+											if (valorSaque > cheque) {
+												System.out.println("O valor é maior do que há disponível.");
+											} else if (valorSaque <= 0) {
+												System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+											} else if (valorSaque > 0 & valorSaque <= cheque) {
+												contaCorrente.sacarCheque(valorSaque);
+												correnteService.sacar(contaCorrente);
+												System.out.printf("\n");
+												tracejado();
+												System.out.println("\nSaque realizado com sucesso..");
+											}
+										}
+
+									}
+								}
+
+							} else {
+
+								if (contaCorrente.getSaldo()<=0){
+									System.out.println("Saldo Indisponivel para Saque.");
+									break;
+								}
+								System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
+
+								while (valorSaque > saldoCorrente || valorSaque <= 0) {
+									System.out.println("\nInforme o valor do saque: ");
+									valorSaque = scanner.nextDouble();
+
+									if (valorSaque > saldoCorrente) {
+										System.out.println("O valor é maior do que há disponível.");
+									} else if (valorSaque <= 0) {
+										System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+									} else if (valorSaque > 0 & valorSaque <= saldoCorrente) {
+										contaCorrente.sacar(valorSaque);
+										correnteService.sacar(contaCorrente);
+										System.out.printf("\n");
+										tracejado();
+										System.out.println("\nSaque realizado com sucesso..");
+									}
+								}
+							}
+
+
+						}
+						/*CONTA POUPANÇA*/
+						else if (acao.equals("2")) {
+							if (contaPoupanca.getSaldo()<=0){
+								System.out.println("Saldo Indisponivel para Saque.");
+								break;
+							}
+							System.out.printf("SALDO DISPONIVEL: R$ " + contaPoupanca.getSaldo());
+							saldoPoupanca = contaPoupanca.getSaldo();
+							while (valorSaque > saldoPoupanca || valorSaque <= 0) {
+								System.out.println("\nInforme o valor do saque: ");
+								valorSaque = scanner.nextDouble();
+
+								if (valorSaque > saldoPoupanca) {
+									System.out.println("O valor é maior do que há disponível.");
+								} else if (valorSaque <= 0) {
+									System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+								} else if (valorSaque > 0 & valorSaque <= saldoPoupanca) {
+									System.out.printf("\n");
+									contaPoupanca.sacar(valorSaque);
+									poupancaService.sacar(contaPoupanca);
+									tracejado();
+									System.out.println("\nSaque realizado com sucesso..");
+								}
+							}
+						}
+
+					}
+					/*APENAS CONTA CORRENTE*/
+					else if (contaCorrente != null) {
+						saldoCorrente = contaCorrente.getSaldo();
+
+						if (contaCorrente.getChequeEspecial() > 0) {
+							while (!acao.equals("1") || !acao.equals("2")) {
+								System.out.println("O que deseja sacar?\n 1 - O valor da conta\n2 - Cheque Especial\n");
+								acao = scanner.next();
+
+								if (acao.equals("1")) {
+									if (saldoCorrente<=0){
+										System.out.println("Saldo Indisponivel para Saque.");
+										break;
+									}
+									System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
+
+									while (valorSaque > saldoCorrente || valorSaque <= 0) {
+										System.out.println("\nInforme o valor do saque: ");
+										valorSaque = scanner.nextDouble();
+
+										if (valorSaque > saldoCorrente) {
+											System.out.println("O valor é maior do que há disponível.");
+										} else if (valorSaque <= 0) {
+											System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+										} else if (valorSaque > 0 & valorSaque <= saldoCorrente) {
+											contaCorrente.sacar(valorSaque);
+											correnteService.sacar(contaCorrente);
+											System.out.printf("\n");
+											tracejado();
+											System.out.println("\nSaque realizado com sucesso..");
+										}
+									}
+
+								} else if (acao.equals("2")) {
+									System.out.println("Saldo do Cheque Especial: R$ " + contaCorrente.getChequeEspecial());
+
+									cheque = contaCorrente.getChequeEspecial();
+
+									while (valorSaque > cheque || valorSaque <= 0) {
+										System.out.println("\nInforme o valor do saque: ");
+										valorSaque = scanner.nextDouble();
+
+										if (valorSaque > cheque) {
+											System.out.println("O valor é maior do que há disponível.");
+										} else if (valorSaque <= 0) {
+											System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+										} else if (valorSaque > 0 & valorSaque <= cheque) {
+											contaCorrente.sacarCheque(valorSaque);
+											correnteService.sacar(contaCorrente);
+											System.out.printf("\n");
+											tracejado();
+											System.out.println("\nSaque realizado com sucesso..");
+										}
+									}
+
+								}
+							}
+
+						}
+					} else if (contaPoupanca != null) {
+						if (contaPoupanca.getSaldo()<=0){
+							System.out.println("Saldo Indisponivel para Saque.");
+							break;
+						}
+						System.out.println("Saldo disponível: R$ " + contaPoupanca.getSaldo());
+
+						while (valorSaque > saldoPoupanca || valorSaque <= 0) {
+							System.out.println("\nInforme o valor do saque: ");
+							valorSaque = scanner.nextDouble();
+
+							if (valorSaque > saldoPoupanca) {
+								System.out.println("O valor é maior do que há disponível.");
+							} else if (valorSaque <= 0) {
+								System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+							} else if (valorSaque > 0 & valorSaque <= saldoPoupanca) {
+								contaPoupanca.sacar(valorSaque);
+								poupancaService.sacar(contaPoupanca);
+								System.out.printf("\n");
+								tracejado();
+								System.out.println("\nSaque realizado com sucesso..");
+							}
+						}
+
+
+
+
+					}
+
+
+				}
+			}
 		}
 
 

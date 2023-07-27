@@ -16,4 +16,8 @@ import lombok.Setter;
 public class ContaCorrente extends ContaBancaria {
     @Column(name = "chequeEspecial")
     private double chequeEspecial;
+
+    public void sacarCheque(double cheque){
+        this.chequeEspecial -= cheque;
+    }
 }
