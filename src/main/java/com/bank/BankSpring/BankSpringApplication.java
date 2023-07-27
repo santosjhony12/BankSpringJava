@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -56,10 +57,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		int acesso = 0;
 		String acao;
 
-
-
-
-		/* INICIO DO PROGRAMAR */
+		/* INICIO DO PROGRAMA */
 		tracejado();
 		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
 		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");
@@ -168,25 +166,32 @@ public class BankSpringApplication implements CommandLineRunner {
 
 		tracejado();
 
-		if (acesso == 1){
+		if (acesso == 1) {
 			cliente = clienteService.buscarClientePorCpf(cpfScanner);
 			/*É NECESSÁRIO VERIFICAR QUAIS TIPOS DE CONTA O USUÁRIO TEM PARA DEPOIS EXIBIR AS INFORMAÇÕES COMO SALDO ETC.*/
 			contaPoupanca = poupancaService.buscarDadosPorCpf(cpfScanner);
-			contaCorrente = correnteService.buscarCorrentePorCpf(cpfScanner);
-			System.out.println("\nNome: "+cliente.getName()+"\nCPF:"+cliente.getCpf());
+			/*cpfScanner = "43159986802";*/
+			contaCorrente = correnteService.findByCpf(cpfScanner);
+			System.out.println("\nNome: " + cliente.getName() + "\nCPF:" + cliente.getCpf());
 			tracejado();
 			questionarioLogado();
 			tracejado();
 			acao = scanner.next();
 
-			if (acao.equals("1")){
-				System.out.println("SALDO: R$ ");
+			if (acao.equals("1")) {
+				if (contaPoupanca != null & contaCorrente != null) {
+					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
+					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
+				} else if (contaPoupanca != null) {
+					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
+				} else if (contaCorrente != null) {
+					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
+				}
+			} else {
+				System.out.println("Que triste");
 			}
-		}else{
-			System.out.println("Que triste");
+
 		}
-
-
 
 
 
