@@ -36,7 +36,6 @@ public class BankSpringApplication implements CommandLineRunner {
 	public int login(String cpf, String senha){
 		cliente = clienteService.buscarClientePorCpf(cpf);
 		if (cliente != null && senha.equals(cliente.getSenha())){
-			System.out.println("\nAcesso Liberado");
 			return 1;
 		}else{
 			System.out.println("\nAcesso Negado!");
@@ -56,6 +55,8 @@ public class BankSpringApplication implements CommandLineRunner {
 		/*DECLARAÇÃO DE VARIAVEIS DE CONTROLE*/
 		int acesso = 0;
 		String acao;
+		double saldoCorrente = 0, saldoPoupanca = 0, chequeEspecial = 0, saldoTotal = 0;
+
 
 		/* INICIO DO PROGRAMA */
 		tracejado();
@@ -164,29 +165,43 @@ public class BankSpringApplication implements CommandLineRunner {
 			System.out.println("ATÉ MAIS");
 		}
 
-		tracejado();
 
 		if (acesso == 1) {
 			cliente = clienteService.buscarClientePorCpf(cpfScanner);
-			/*É NECESSÁRIO VERIFICAR QUAIS TIPOS DE CONTA O USUÁRIO TEM PARA DEPOIS EXIBIR AS INFORMAÇÕES COMO SALDO ETC.*/
 			contaPoupanca = poupancaService.buscarDadosPorCpf(cpfScanner);
-			/*cpfScanner = "43159986802";*/
 			contaCorrente = correnteService.findByCpf(cpfScanner);
-			System.out.println("\nNome: " + cliente.getName() + "\nCPF:" + cliente.getCpf());
 			tracejado();
+			System.out.println("\nBEM VINDO "+cliente.getName()+"\nCPF:" + cliente.getCpf());
 			questionarioLogado();
-			tracejado();
 			acao = scanner.next();
+			tracejado();
 
 			if (acao.equals("1")) {
 				if (contaPoupanca != null & contaCorrente != null) {
 					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
 					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
+					System.out.println("VALOR CHEQUE ESPECIAL: R$ "+ contaCorrente.getChequeEspecial());
+
+					/*CALCULO SALDO TOTAL*/
+					chequeEspecial = contaCorrente.getChequeEspecial();
+					saldoPoupanca = contaPoupanca.getSaldo();
+					saldoCorrente = contaCorrente.getSaldo();
+					saldoTotal = saldoPoupanca+saldoCorrente+chequeEspecial;
+					System.out.println("SALDO TOTAL: R$ "+saldoTotal);
+
 				} else if (contaPoupanca != null) {
 					System.out.println("SALDO CONTA POUPANÇA: R$ " + contaPoupanca.getSaldo());
 				} else if (contaCorrente != null) {
 					System.out.println("SALDO CONTA CORRENTE: R$ " + contaCorrente.getSaldo());
+					System.out.println("VALOR CHEQUE ESPECIAL: R$ "+ contaCorrente.getChequeEspecial());
+
+					/*CALCULO SALDO TOTAL*/
+					chequeEspecial = contaCorrente.getChequeEspecial();
+					saldoCorrente = contaCorrente.getSaldo();
+					saldoTotal = saldoCorrente+chequeEspecial;
+					System.out.println("SALDO TOTAL: R$ "+saldoTotal);
 				}
+				tracejado();
 			} else {
 				System.out.println("Que triste");
 			}
@@ -255,7 +270,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		System.out.println("3 - Sacar");
 		System.out.println("4 - Alterar Senha");
 		System.out.println("5 - Excluir conta");
-		System.out.println("6 - SAIR");
+		System.out.println("6 - SAIR\n");
 	}
 
 }
