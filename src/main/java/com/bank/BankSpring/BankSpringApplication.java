@@ -38,7 +38,9 @@ public class BankSpringApplication implements CommandLineRunner {
 		if (cliente != null && senha.equals(cliente.getSenha())){
 			return 1;
 		}else{
-			System.out.println("\nAcesso Negado!");
+			tracejado();
+			System.out.println("\nAcesso Negado! Usuário e/ou senha invalidos\n");
+			tracejado();
 			return 0;
 		}
 	}
@@ -56,14 +58,26 @@ public class BankSpringApplication implements CommandLineRunner {
 		int acesso = 0;
 		String acao;
 		double saldoCorrente = 0, saldoPoupanca = 0, chequeEspecial = 0, saldoTotal = 0;
+		String resposta = "0";
 
 
 		/* INICIO DO PROGRAMA */
 		tracejado();
 		System.out.println("\nBEM VINDO AO SEU BANCO DIGITAL\n");
 		System.out.println("O QUE GOSTARIA DE FAZER HOJE?");
-		System.out.println("1 - Cadastro\n2 - Entrar na sua conta\n3 - SAIR");
-		String resposta = scanner.next();
+
+		while(!resposta.equals("1") && !resposta.equals("2") && !resposta.equals("3")){
+			System.out.println("1 - Cadastro\n2 - Entrar na sua conta\n3 - SAIR");
+			resposta = scanner.next();
+
+			if (!resposta.equals("1") && !resposta.equals("2") && !resposta.equals("3")){
+				tracejado();
+				System.out.println("Resposta Invalida.");
+				tracejado();
+				System.out.println("\nVamos tentar de novo?");
+			}
+		}
+
 
 		tracejado();
 
@@ -162,9 +176,17 @@ public class BankSpringApplication implements CommandLineRunner {
 			String senhaScanner = scanner.next();
 			acesso = login(cpfScanner, senhaScanner);
 		}else{
-			System.out.println("ATÉ MAIS");
+			System.out.println("FOI UM PRAZER TE TER AQUI. NOS VEMOS EM BREVE!");
 		}
 
+		while(acesso == 0){
+			System.out.println("Digite seu CPF: ");
+			cpfScanner = scanner.next();
+
+			System.out.println("Digite sua senha: ");
+			String senhaScanner = scanner.next();
+			acesso = login(cpfScanner, senhaScanner);
+		}
 
 		if (acesso == 1) {
 			cliente = clienteService.buscarClientePorCpf(cpfScanner);
@@ -330,9 +352,6 @@ public class BankSpringApplication implements CommandLineRunner {
 						System.out.printf("Selecione qual conta deseja realizar o saque: \n1 - Corrente\n2 - Poupança\n3 - SAIR\n");
 						acao = scanner.next();
 
-						if (acao.equals("3")){
-							break;
-						}
 
 						/*CONTA CORRENTE*/
 						if (acao.equals("1")) {
@@ -352,8 +371,8 @@ public class BankSpringApplication implements CommandLineRunner {
 									if (acao.equals("1")){
 										if(contaCorrente.getSaldo()<=0){
 											System.out.println("Saldo Indisponivel para Saque.");
-											break;
 										}
+										else{
 										System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
 
 										while (valorSaque > saldoCorrente || valorSaque <= 0) {
@@ -372,7 +391,7 @@ public class BankSpringApplication implements CommandLineRunner {
 												System.out.println("\nSaque realizado com sucesso..");
 											}
 										}
-
+										}
 									}
 									else if (acao.equals("2")){
 										System.out.println("Saldo do Cheque Especial: R$ " + contaCorrente.getChequeEspecial());
@@ -401,73 +420,9 @@ public class BankSpringApplication implements CommandLineRunner {
 
 							} else {
 
-								if (contaCorrente.getSaldo()<=0){
+								if (contaCorrente.getSaldo() <= 0) {
 									System.out.println("Saldo Indisponivel para Saque.");
-									break;
-								}
-								System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
-
-								while (valorSaque > saldoCorrente || valorSaque <= 0) {
-									System.out.println("\nInforme o valor do saque: ");
-									valorSaque = scanner.nextDouble();
-
-									if (valorSaque > saldoCorrente) {
-										System.out.println("O valor é maior do que há disponível.");
-									} else if (valorSaque <= 0) {
-										System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
-									} else if (valorSaque > 0 & valorSaque <= saldoCorrente) {
-										contaCorrente.sacar(valorSaque);
-										correnteService.sacar(contaCorrente);
-										System.out.printf("\n");
-										tracejado();
-										System.out.println("\nSaque realizado com sucesso..");
-									}
-								}
-							}
-
-
-						}
-						/*CONTA POUPANÇA*/
-						else if (acao.equals("2")) {
-							if (contaPoupanca.getSaldo()<=0){
-								System.out.println("Saldo Indisponivel para Saque.");
-								break;
-							}
-							System.out.printf("SALDO DISPONIVEL: R$ " + contaPoupanca.getSaldo());
-							saldoPoupanca = contaPoupanca.getSaldo();
-							while (valorSaque > saldoPoupanca || valorSaque <= 0) {
-								System.out.println("\nInforme o valor do saque: ");
-								valorSaque = scanner.nextDouble();
-
-								if (valorSaque > saldoPoupanca) {
-									System.out.println("O valor é maior do que há disponível.");
-								} else if (valorSaque <= 0) {
-									System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
-								} else if (valorSaque > 0 & valorSaque <= saldoPoupanca) {
-									System.out.printf("\n");
-									contaPoupanca.sacar(valorSaque);
-									poupancaService.sacar(contaPoupanca);
-									tracejado();
-									System.out.println("\nSaque realizado com sucesso..");
-								}
-							}
-						}
-
-					}
-					/*APENAS CONTA CORRENTE*/
-					else if (contaCorrente != null) {
-						saldoCorrente = contaCorrente.getSaldo();
-
-						if (contaCorrente.getChequeEspecial() > 0) {
-							while (!acao.equals("1") || !acao.equals("2")) {
-								System.out.println("O que deseja sacar?\n 1 - O valor da conta\n2 - Cheque Especial\n");
-								acao = scanner.next();
-
-								if (acao.equals("1")) {
-									if (saldoCorrente<=0){
-										System.out.println("Saldo Indisponivel para Saque.");
-										break;
-									}
+								} else {
 									System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
 
 									while (valorSaque > saldoCorrente || valorSaque <= 0) {
@@ -486,7 +441,72 @@ public class BankSpringApplication implements CommandLineRunner {
 											System.out.println("\nSaque realizado com sucesso..");
 										}
 									}
+								}
+							}
 
+						}
+						/*CONTA POUPANÇA*/
+						else if (acao.equals("2")) {
+							if (contaPoupanca.getSaldo()<=0){
+								System.out.println("Saldo Insuficiente para Saque.");
+							}
+							else{
+							System.out.printf("SALDO DISPONIVEL: R$ " + contaPoupanca.getSaldo());
+							saldoPoupanca = contaPoupanca.getSaldo();
+							while (valorSaque > saldoPoupanca || valorSaque <= 0) {
+								System.out.println("\nInforme o valor do saque: ");
+								valorSaque = scanner.nextDouble();
+
+								if (valorSaque > saldoPoupanca) {
+									System.out.println("O valor é maior do que há disponível.");
+								} else if (valorSaque <= 0) {
+									System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+								} else if (valorSaque > 0 & valorSaque <= saldoPoupanca) {
+									System.out.printf("\n");
+									contaPoupanca.sacar(valorSaque);
+									poupancaService.sacar(contaPoupanca);
+									tracejado();
+									System.out.println("\nSaque realizado com sucesso..");
+								}
+							}
+							}
+						}
+
+					}
+					/*APENAS CONTA CORRENTE*/
+					else if (contaCorrente != null) {
+						saldoCorrente = contaCorrente.getSaldo();
+
+						if (contaCorrente.getChequeEspecial() > 0) {
+							while (!acao.equals("1") || !acao.equals("2")) {
+								System.out.println("O que deseja sacar?\n 1 - O valor da conta\n2 - Cheque Especial\n");
+								acao = scanner.next();
+
+								if (acao.equals("1")) {
+
+									if(saldoCorrente<=0){
+										System.out.println("Saldo Insuficiente para saque.");
+									}else {
+
+										System.out.println("Saldo disponível: R$ " + contaCorrente.getSaldo());
+
+										while (valorSaque > saldoCorrente || valorSaque <= 0) {
+											System.out.println("\nInforme o valor do saque: ");
+											valorSaque = scanner.nextDouble();
+
+											if (valorSaque > saldoCorrente) {
+												System.out.println("O valor é maior do que há disponível.");
+											} else if (valorSaque <= 0) {
+												System.out.printf("O valor a ser sacado não pode ser menor ou igual a 0.");
+											} else if (valorSaque > 0 & valorSaque <= saldoCorrente) {
+												contaCorrente.sacar(valorSaque);
+												correnteService.sacar(contaCorrente);
+												System.out.printf("\n");
+												tracejado();
+												System.out.println("\nSaque realizado com sucesso..");
+											}
+										}
+									}
 								} else if (acao.equals("2")) {
 									System.out.println("Saldo do Cheque Especial: R$ " + contaCorrente.getChequeEspecial());
 
@@ -513,11 +533,12 @@ public class BankSpringApplication implements CommandLineRunner {
 							}
 
 						}
-					} else if (contaPoupanca != null) {
+					}
+					else if (contaPoupanca != null) {
 						if (contaPoupanca.getSaldo()<=0){
-							System.out.println("Saldo Indisponivel para Saque.");
-							break;
+							System.out.println("Saldo Insuficiente para Saque.");
 						}
+						else{
 						System.out.println("Saldo disponível: R$ " + contaPoupanca.getSaldo());
 
 						while (valorSaque > saldoPoupanca || valorSaque <= 0) {
@@ -535,6 +556,7 @@ public class BankSpringApplication implements CommandLineRunner {
 								tracejado();
 								System.out.println("\nSaque realizado com sucesso..");
 							}
+						}
 						}
 
 
@@ -607,9 +629,10 @@ public class BankSpringApplication implements CommandLineRunner {
 		System.out.println("1 - Consultar Saldo");
 		System.out.println("2 - Transfência");
 		System.out.println("3 - Sacar");
-		System.out.println("4 - Alterar Senha");
-		System.out.println("5 - Excluir conta");
-		System.out.println("6 - SAIR\n");
+		System.out.println("4 - Depositar");
+		System.out.println("5 - Alterar Senha");
+		System.out.println("6 - Excluir conta");
+		System.out.println("7 - SAIR\n");
 	}
 
 }
