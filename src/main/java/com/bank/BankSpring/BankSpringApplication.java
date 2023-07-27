@@ -202,8 +202,74 @@ public class BankSpringApplication implements CommandLineRunner {
 					System.out.println("SALDO TOTAL: R$ "+saldoTotal);
 				}
 				tracejado();
-			} else {
-				System.out.println("Que triste");
+			} else if (acao.equals("2")) {
+				if (contaPoupanca != null & contaCorrente != null){
+					System.out.printf("Selecione qual conta deseja realizar a transferência: \n1 - Corrente\n2 - Poupança");
+					acao = scanner.next();
+					System.out.printf("Informe a conta que deseja transferir: ");
+					String contaTransferir = scanner.next();
+					double valorTransferencia = 0;
+
+					if (acao.equals("1")){
+						System.out.println("Saldo disponível: R$ "+contaCorrente.getSaldo());
+						saldoCorrente = contaCorrente.getSaldo();
+
+						while(valorTransferencia > saldoCorrente || valorTransferencia <= 0){
+							System.out.println("Informe o valor da transferência: ");
+							valorTransferencia = scanner.nextDouble();
+
+							if (valorTransferencia > saldoCorrente){
+								System.out.println("O valor é maior que o há disponível.");
+							}
+							else if (valorTransferencia<=0){
+								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+							}
+							else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
+								System.out.println("Transferido.");
+							}
+						}
+					} else if (acao.equals("2")) {
+						System.out.printf("SALDO DISPONIVEL: R$ "+contaPoupanca.getSaldo());
+						saldoPoupanca = contaPoupanca.getSaldo();
+						while(valorTransferencia > saldoPoupanca || valorTransferencia <= 0){
+							System.out.println("Informe o valor da transferência: ");
+							valorTransferencia = scanner.nextDouble();
+
+							if (valorTransferencia > saldoPoupanca){
+								System.out.println("O valor é maior que o há disponível.");
+							}
+							else if (valorTransferencia<=0){
+								System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+							}
+							else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
+								System.out.println("Transferido.");
+							}
+						}
+					}
+
+				}else if(contaCorrente != null){
+					System.out.printf("Informe a conta que deseja transferir: ");
+					String contaTransferir = scanner.next();
+
+					double valorTransferencia = 0;
+					saldoCorrente = contaCorrente.getSaldo();
+
+					while(valorTransferencia > saldoCorrente || valorTransferencia <= 0){
+						System.out.println("Informe o valor da transferência: ");
+						valorTransferencia = scanner.nextDouble();
+
+						if (valorTransferencia > saldoCorrente){
+							System.out.println("O valor é maior que o há disponível.");
+						}
+						else if (valorTransferencia<=0){
+							System.out.printf("O valor a ser transferido não pode ser menor ou igual a 0.");
+						}
+						else if (valorTransferencia >0 & valorTransferencia<=saldoCorrente){
+							System.out.println("Transferido.");
+						}
+					}
+				}
+
 			}
 
 		}
