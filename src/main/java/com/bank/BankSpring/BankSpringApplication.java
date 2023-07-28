@@ -177,6 +177,8 @@ public class BankSpringApplication implements CommandLineRunner {
 			acesso = login(cpfScanner, senhaScanner);
 		}else{
 			System.out.println("FOI UM PRAZER TE TER AQUI. NOS VEMOS EM BREVE!");
+			acesso = 3;
+			tracejado();
 		}
 
 		while(acesso == 0){
@@ -558,19 +560,28 @@ public class BankSpringApplication implements CommandLineRunner {
 							}
 						}
 						}
-
-
-
-
 					}
 
+				/*OPÇÃO 4 - DEPOSITAR*/
 				} else if (acao.equals("4")) {
+					String tipoConta = "";
+
+					if (contaPoupanca!= null && contaCorrente!= null){
+						while (!tipoConta.equals("1") && !tipoConta.equals("2")){
+							System.out.println("Informe em qual conta deseja depositar:\n1 - Conta Corrente\n2 - Conta Poupança");
+							tipoConta = scanner.next();
+							if (!tipoConta.equals("1") && !tipoConta.equals("2")){
+								tracejado();
+								System.out.println("OPÇÃO INVALIDA");
+								tracejado();
+							}
+						}
+					}
+
+					System.out.println("Informe o valor do depósito: \n");
+					double valor = scanner.nextDouble();
 
 					if(contaPoupanca!=null && contaCorrente!=null){
-						System.out.println("Informe em qual conta deseja depositar:\n1 - Conta Corrente\n2 - Conta Poupança\n ");
-						String tipoConta = scanner.next();
-						System.out.println("Informe o valor do depósito: \n");
-						double valor = scanner.nextDouble();
 
 						if (tipoConta.equals("1")){
 							try{
@@ -596,8 +607,39 @@ public class BankSpringApplication implements CommandLineRunner {
 							}
 
 						}
+						else{
+							tracejado();
+							System.out.println("Opção Invalida");
+							tracejado();
+						}
+					} else if (contaPoupanca != null) {
+						try{
+							contaPoupanca.depositar(valor);
+							poupancaService.depositar(contaPoupanca);
+							tracejado();
+							System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
+							tracejado();
+						}catch (Exception e){
+							System.out.println("Alguma coisa de errado ocorreu. Entre em contato com o seu admnistrador.");
+							e.printStackTrace();
+						}
+					} else if (contaCorrente != null) {
+						try{
+							contaCorrente.depositar(valor);
+							correnteService.depositar(contaCorrente);
+							tracejado();
+							System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
+							tracejado();
+						}catch (Exception e){
+							System.out.println("Alguma coisa de errado ocorreu. Entre em contato com o seu admnistrador.");
+							e.printStackTrace();
+						}
 					}
 
+				} else if (acao.equals("7")) {
+					System.out.println("FOI BOM TE VER AQUI. NOS VEMOS EM BREVE!!");
+					tracejado();
+					break;
 				}
 			}
 		}
