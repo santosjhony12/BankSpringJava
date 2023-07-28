@@ -21,4 +21,7 @@ public class PoupancaService {
     public ContaPoupanca sacar(ContaPoupanca contaPoupanca){
         return poupancaRepository.save(contaPoupanca);
     }
+    public ContaPoupanca depositar(ContaPoupanca contaPoupanca){
+        return poupancaRepository.save(contaPoupanca);
+    }
 }

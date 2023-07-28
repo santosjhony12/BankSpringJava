@@ -564,6 +564,39 @@ public class BankSpringApplication implements CommandLineRunner {
 
 					}
 
+				} else if (acao.equals("4")) {
+
+					if(contaPoupanca!=null && contaCorrente!=null){
+						System.out.println("Informe em qual conta deseja depositar:\n1 - Conta Corrente\n2 - Conta Poupança\n ");
+						String tipoConta = scanner.next();
+						System.out.println("Informe o valor do depósito: \n");
+						double valor = scanner.nextDouble();
+
+						if (tipoConta.equals("1")){
+							try{
+								contaCorrente.depositar(valor);
+								correnteService.depositar(contaCorrente);
+								tracejado();
+								System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
+								tracejado();
+							}catch (Exception e){
+								System.out.println("Alguma coisa de errado ocorreu. Entre em contato com o seu admnistrador.");
+								e.printStackTrace();
+							}
+						} else if (tipoConta.equals("2")) {
+							try{
+								contaPoupanca.depositar(valor);
+								poupancaService.depositar(contaPoupanca);
+								tracejado();
+								System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
+								tracejado();
+							}catch (Exception e){
+								System.out.println("Alguma coisa de errado ocorreu. Entre em contato com o seu admnistrador.");
+								e.printStackTrace();
+							}
+
+						}
+					}
 
 				}
 			}

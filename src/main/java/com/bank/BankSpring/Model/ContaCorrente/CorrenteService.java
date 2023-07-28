@@ -25,4 +25,7 @@ public class CorrenteService {
     public ContaCorrente sacar(ContaCorrente contaCorrente){
         return correnteRepository.save(contaCorrente);
     }
+    public ContaCorrente depositar(ContaCorrente contaCorrente){
+        return correnteRepository.save(contaCorrente);
+    }
 }
