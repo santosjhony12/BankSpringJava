@@ -199,14 +199,13 @@ public class BankSpringApplication implements CommandLineRunner {
 			acao = "1";
 
 			while (!acao.equals("1") || !acao.equals("2") || !acao.equals("3") || !acao.equals("4") || !acao.equals("5") || !acao.equals("6")) {
-				questionarioLogado();
-				acao = scanner.next();
+
 				if (acao.equals("7")){
-					tracejado();
-					System.out.println("NOS VEMOS EM BREVE. ATÉ MAIS!\n");
-					tracejado();
 					break;
 				}
+
+				questionarioLogado();
+				acao = scanner.next();
 				tracejado();
 
 				/*OPÇÃO 1 - VER SALDO*/
@@ -665,15 +664,32 @@ public class BankSpringApplication implements CommandLineRunner {
 						acao = scanner.next();
 
 						if (acao.equals("1")){
+							String cpf = cliente.getCpf();
 							try{
-								String cpf = cliente.getCpf();
-								/*poupancaService.excluirContaPorCpf(cpf);*/
-								correnteService.excluirClientePorCpf(cpf);
-								System.out.println("Sua conta foi excluída com sucesso");
-								System.out.println("Esperamos te ver em breve!");
-								/*break;/*FINALIZA O PROGRAMA*/
+								poupancaService.excluirContaPorCpf(cpf);
+								acao = "1";
 							}catch (Exception e){
-								System.out.println("Não foi possível excluir a sua conta. Entre em contato com o seu ADM.");
+								e.printStackTrace();
+							}
+							try{
+								correnteService.excluirClientePorCpf(cpf);
+								acao = "1";
+							}catch (Exception e){
+								e.printStackTrace();
+							}
+							try{
+								clienteService.excluirClientePorCpf(cpf);
+								acao = "1";
+							}catch (Exception e){
+								e.printStackTrace();
+							}
+
+							if (acao.equals("1")){
+								tracejado();
+								System.out.println("ESPERAMOS TE VER EM BREVE!");
+								tracejado();
+								acao = "7";
+								break;
 							}
 						}
 					}
