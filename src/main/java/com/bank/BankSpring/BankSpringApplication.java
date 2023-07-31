@@ -59,6 +59,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		String acao;
 		double saldoCorrente = 0, saldoPoupanca = 0, chequeEspecial = 0, saldoTotal = 0;
 		String resposta = "0";
+		String cpf = "";
 
 
 		/* INICIO DO PROGRAMA */
@@ -88,9 +89,32 @@ public class BankSpringApplication implements CommandLineRunner {
 			String nome = scanner.nextLine();
 			cliente.setName(nome);
 
-			System.out.println("\nDigite o seu CPF: ");
-			String cpf = scanner.next();
-			cliente.setCpf(cpf);
+			int control = 0;
+			boolean control2;
+			while (control == 0){
+				System.out.println("\nDigite o seu CPF: ");
+				cpf = scanner.next();
+				control2 = validarCPF(cpf);
+
+				/*VERIFICA SE JÁ EXISTE CPF CADASTRADO*/
+				cliente = clienteService.buscarClientePorCpf(cpf);
+				if (cliente != null){
+					tracejado();
+					System.out.println("ESSE CPF JÁ É CADASTRADO");
+					tracejado();
+				}else{
+					control = 1;
+				}
+				/*VERIFICA SE O CPF É FALSO*/
+				if (control2 == false){
+					tracejado();
+					System.out.println("CPF INVALIDO");
+					tracejado();
+					control = 0;
+				}
+
+			}
+
 
 			System.out.println("\nDigite sua senha:");
 			String senha = scanner.next();
@@ -664,7 +688,7 @@ public class BankSpringApplication implements CommandLineRunner {
 						acao = scanner.next();
 
 						if (acao.equals("1")){
-							String cpf = cliente.getCpf();
+							cpf = cliente.getCpf();
 							try{
 								poupancaService.excluirContaPorCpf(cpf);
 								acao = "1";
@@ -696,56 +720,6 @@ public class BankSpringApplication implements CommandLineRunner {
 				}
 			}
 		}
-
-
-
-		/*
-		* PARA INSERIR O CLIENTE BASTA CHAMAR A FUNÇÃO INSERIRCLIENTE DO
-		* CLIENTESERVICE E PASSAR POR PARAMETRO A CLASSE CLIENTE. OBS.: NÃO PODE ESQUECER DE SETAR OS VALORES DA CLASSE
-		* cliente.setName("João");
-		* cliente.setCpf("123");
-		* cliente.setSenha("123);
-		* clienteService.inserirCliente(cliente);
-		* */
-
-
-		/* BUSCANDO CLIENTE POR CPF
-		cliente = clienteService.buscarClientePorCpf(cpf);
-
-		if (cliente != null){
-			System.out.println("Cliente Encontrado");
-			System.out.println("ID: "+cliente.getId());
-			System.out.println("Nome: "+cliente.getName());
-			System.out.println("CPF: "+cliente.getCpf());
-			System.out.println(cliente);
-		}else{
-			System.out.println("Cliente não encontrado!");
-		}*/
-
-
-		/*UPDATE DE SENHA POR CPF
-		cliente = clienteService.buscarClientePorCpf(cpf);
-
-		if(cliente != null){
-			System.out.println("CLIENTE ENCONTRADO! ");
-			System.out.println("Nova senha: ");
-			String senha = scanner.next();
-			cliente.setSenha(senha);
-			clienteService.atualizarSenha(cliente);
-
-		}else{
-			System.out.println("CLIENTE NÃO ENCONTRADO!");
-		}
-*/
-
-		/*DELETE
-		try {
-			clienteService.excluirClientePorCpf(cpf);
-			System.out.println("Cliente excluído com sucesso!");
-		} catch (ClienteNotFoundException ex) {
-			System.out.println(ex.getMessage());
-		}
-		*/
 	}
 
 	/* FUNÇÕES STATICAS PARA VISUAL*/
@@ -762,5 +736,48 @@ public class BankSpringApplication implements CommandLineRunner {
 		System.out.println("6 - Excluir conta");
 		System.out.println("7 - SAIR\n");
 	}
+
+	public static boolean validarCPF(String cpf) {
+		cpf = cpf.replaceAll("[^0-9]", "");
+		if (cpf.length() != 11) {
+			return false;
+		}
+		if (cpf.matches("(\\d)\\1{10}")) {
+			return false;
+		}
+
+		int soma = 0;
+		int resto;
+
+		for (int i = 0; i < 9; i++) {
+			soma += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
+		}
+
+		resto = 11 - (soma % 11);
+		if (resto == 10 || resto == 11) {
+			resto = 0;
+		}
+
+		if (resto != Character.getNumericValue(cpf.charAt(9))) {
+			return false;
+		}
+
+		soma = 0;
+		for (int i = 0; i < 10; i++) {
+			soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
+		}
+
+		resto = 11 - (soma % 11);
+		if (resto == 10 || resto == 11) {
+			resto = 0;
+		}
+
+		if (resto != Character.getNumericValue(cpf.charAt(10))) {
+			return false;
+		}
+
+		return true;
+	}
+
 
 }
