@@ -6,6 +6,8 @@ import com.bank.BankSpring.Model.ContaCorrente.ContaCorrente;
 import com.bank.BankSpring.Model.ContaCorrente.CorrenteService;
 import com.bank.BankSpring.Model.ContaPoupanca.ContaPoupanca;
 import com.bank.BankSpring.Model.ContaPoupanca.PoupancaService;
+import com.bank.BankSpring.Model.Extrato.Extrato;
+import com.bank.BankSpring.Model.Extrato.ExtratoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,13 +22,14 @@ public class BankSpringApplication implements CommandLineRunner {
 	private final ClienteService clienteService;
 	private final PoupancaService poupancaService;
 	private final CorrenteService correnteService;
-
+	private final ExtratoService extratoService;
 
 	@Autowired
-	public BankSpringApplication(ClienteService clienteService, PoupancaService poupancaService, CorrenteService correnteService){
+	public BankSpringApplication(ClienteService clienteService, PoupancaService poupancaService, CorrenteService correnteService, ExtratoService extratoService){
 		this.clienteService = clienteService;
 		this.poupancaService = poupancaService;
 		this.correnteService = correnteService;
+		this.extratoService = extratoService;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(BankSpringApplication.class, args);
@@ -52,6 +55,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		Cliente cliente = new Cliente();
 		ContaPoupanca contaPoupanca = new ContaPoupanca();
 		ContaCorrente contaCorrente	= new ContaCorrente();
+		/*Extrato extrato = new Extrato();*/
 		Scanner scanner = new Scanner(System.in);
 
 		/*DECLARAÇÃO DE VARIAVEIS DE CONTROLE*/
@@ -60,7 +64,6 @@ public class BankSpringApplication implements CommandLineRunner {
 		double saldoCorrente = 0, saldoPoupanca = 0, chequeEspecial = 0, saldoTotal = 0;
 		String resposta = "0";
 		String cpf = "";
-
 
 		/* INICIO DO PROGRAMA */
 		tracejado();
@@ -222,9 +225,9 @@ public class BankSpringApplication implements CommandLineRunner {
 			System.out.println("\nBEM VINDO " + cliente.getName() + "\nCPF:" + cliente.getCpf());
 			acao = "1";
 
-			while (!acao.equals("1") || !acao.equals("2") || !acao.equals("3") || !acao.equals("4") || !acao.equals("5") || !acao.equals("6")) {
+			while (!acao.equals("1") || !acao.equals("2") || !acao.equals("3") || !acao.equals("4") || !acao.equals("5") || !acao.equals("6") || !acao.equals("7") || !acao.equals("8")) {
 
-				if (acao.equals("7")){
+				if (acao.equals("8")){
 					break;
 				}
 
@@ -660,14 +663,28 @@ public class BankSpringApplication implements CommandLineRunner {
 					}
 
 				}
-				/*AÇÃO 7 - SAIR*/
-				else if (acao.equals("7")) {
+				/*AÇÃO 5 - EXTRATO*/
+				else if (acao.equals("5")) {
+					List<Extrato> extratoValues = extratoService.buscarExtratoPorCpf(cliente.getCpf());
+
+					System.out.println("EXTRATO:");
+					tracejado();
+
+					for (Extrato extrato : extratoValues){
+						System.out.println("\n");
+						System.out.println("Data: "+extrato.getDataAcao());
+						System.out.println("Descrição: "+extrato.getDescricao());
+					}
+					tracejado();
+				}
+				/*AÇÃO 8 - SAIR*/
+				else if (acao.equals("8")) {
 					System.out.println("FOI BOM TE VER AQUI. NOS VEMOS EM BREVE!!");
 					tracejado();
 					break;
 				}
-				/*AÇÃO 5 - ALTERAR SENHA*/
-				else if (acao.equals("5")) {
+				/*AÇÃO 6 - ALTERAR SENHA*/
+				else if (acao.equals("6")) {
 					System.out.println("Informe sua nova senha: ");
 					String novaSenha = scanner.next();
 
@@ -681,8 +698,8 @@ public class BankSpringApplication implements CommandLineRunner {
 						System.out.println("Alguma coisa de errado aconteceu! Entre em contato com o seu Administrador.");
 					}
 				}
-				/*AÇÃO 6 - EXCLUIR CONTA*/
-				else if (acao.equals("6")) {
+				/*AÇÃO 7 - EXCLUIR CONTA*/
+				else if (acao.equals("7")) {
 					while(!acao.equals("1") && !acao.equals("2")){
 						System.out.println("Tem certeza que deseja excluir sua conta?\n1 - SIM\n2 - Não");
 						acao = scanner.next();
@@ -712,7 +729,7 @@ public class BankSpringApplication implements CommandLineRunner {
 								tracejado();
 								System.out.println("ESPERAMOS TE VER EM BREVE!");
 								tracejado();
-								acao = "7";
+								acao = "8";
 								break;
 							}
 						}
@@ -732,9 +749,10 @@ public class BankSpringApplication implements CommandLineRunner {
 		System.out.println("2 - Transfência");
 		System.out.println("3 - Sacar");
 		System.out.println("4 - Depositar");
-		System.out.println("5 - Alterar Senha");
-		System.out.println("6 - Excluir conta");
-		System.out.println("7 - SAIR\n");
+		System.out.println("5 - Extrato");
+		System.out.println("6 - Alterar Senha");
+		System.out.println("7 - Excluir conta");
+		System.out.println("8 - SAIR\n");
 	}
 
 	public static boolean validarCPF(String cpf) {

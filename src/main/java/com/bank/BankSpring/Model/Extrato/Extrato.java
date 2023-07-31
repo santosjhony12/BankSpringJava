@@ -8,19 +8,19 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "EXTRATO")
+@Entity
+@Table
 public class Extrato {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "DATA_ACAO")
+    @Column(name = "data_acao")
     private LocalDate dataAcao;
-    @Column(name = "DESCRICAO")
+    @Column(name = "descricao")
     private String descricao;
-    @Column(name = "CPF")
+    @Column(name = "cpf_cliente")
     private String cpf;
 }
