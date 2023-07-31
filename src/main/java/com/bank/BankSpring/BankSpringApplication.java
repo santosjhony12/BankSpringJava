@@ -268,22 +268,9 @@ public class BankSpringApplication implements CommandLineRunner {
 					if (contaPoupanca != null & contaCorrente != null) {
 						System.out.printf("Selecione qual conta deseja realizar a transferência: \n1 - Corrente\n2 - Poupança\n");
 						acao = scanner.next();
-						boolean control = false;
-						while(control == false){
-							System.out.printf("Informe o CPF da conta que deseja transferir: ");
-							String contaTransferir = scanner.next();
-							contaCorrente = correnteService.findByCpf(contaTransferir);
-
-							if(contaCorrente==null){
-								tracejado();
-								System.out.println("Essa conta não existe");
-							}
-						}
-
+						System.out.printf("Informe o CPF da conta que deseja transferir: ");
+						String contaTransferir = scanner.next();
 						double valorTransferencia = 0;
-
-
-
 
 						/*CONTA CORRENTE*/
 						if (acao.equals("1")) {
