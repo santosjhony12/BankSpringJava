@@ -1,4 +1,6 @@
 package com.bank.BankSpring.Model.ContaPoupanca;
+import com.bank.BankSpring.Model.Cliente.Cliente;
+import com.bank.BankSpring.Model.Cliente.ClienteNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +25,14 @@ public class PoupancaService {
     }
     public ContaPoupanca depositar(ContaPoupanca contaPoupanca){
         return poupancaRepository.save(contaPoupanca);
+    }
+    public void excluirContaPorCpf(String cpf) {
+        ContaPoupanca contaPoupanca = buscarDadosPorCpf(cpf);
+        if (contaPoupanca != null) {
+            poupancaRepository.delete(contaPoupanca);
+            System.out.println("Conta poupança excluída com sucesso");
+        } else {
+            throw new ClienteNotFoundException("Não possui conta poupança");
+        }
     }
 }

@@ -201,7 +201,7 @@ public class BankSpringApplication implements CommandLineRunner {
 			while (!acao.equals("1") || !acao.equals("2") || !acao.equals("3") || !acao.equals("4") || !acao.equals("5") || !acao.equals("6")) {
 				questionarioLogado();
 				acao = scanner.next();
-				if (acao.equals("6")){
+				if (acao.equals("7")){
 					tracejado();
 					System.out.println("NOS VEMOS EM BREVE. ATÉ MAIS!\n");
 					tracejado();
@@ -636,10 +636,47 @@ public class BankSpringApplication implements CommandLineRunner {
 						}
 					}
 
-				} else if (acao.equals("7")) {
+				}
+				/*AÇÃO 7 - SAIR*/
+				else if (acao.equals("7")) {
 					System.out.println("FOI BOM TE VER AQUI. NOS VEMOS EM BREVE!!");
 					tracejado();
 					break;
+				}
+				/*AÇÃO 5 - ALTERAR SENHA*/
+				else if (acao.equals("5")) {
+					System.out.println("Informe sua nova senha: ");
+					String novaSenha = scanner.next();
+
+					try{
+						cliente.setSenha(novaSenha);
+						clienteService.atualizarSenha(cliente);
+						tracejado();
+						System.out.println("Senha Alterada com Sucesso!");
+						tracejado();
+					}catch (Exception e){
+						System.out.println("Alguma coisa de errado aconteceu! Entre em contato com o seu Administrador.");
+					}
+				}
+				/*AÇÃO 6 - EXCLUIR CONTA*/
+				else if (acao.equals("6")) {
+					while(!acao.equals("1") && !acao.equals("2")){
+						System.out.println("Tem certeza que deseja excluir sua conta?\n1 - SIM\n2 - Não");
+						acao = scanner.next();
+
+						if (acao.equals("1")){
+							try{
+								String cpf = cliente.getCpf();
+								/*poupancaService.excluirContaPorCpf(cpf);*/
+								correnteService.excluirClientePorCpf(cpf);
+								System.out.println("Sua conta foi excluída com sucesso");
+								System.out.println("Esperamos te ver em breve!");
+								/*break;/*FINALIZA O PROGRAMA*/
+							}catch (Exception e){
+								System.out.println("Não foi possível excluir a sua conta. Entre em contato com o seu ADM.");
+							}
+						}
+					}
 				}
 			}
 		}
