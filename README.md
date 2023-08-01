@@ -14,7 +14,7 @@ Alta | Transferência bancária | Possibilitar que os usuários transfiram dinhe
 Alta | Depósito de valor | Permitir que os usuários depositem dinheiro em suas contas bancárias. | Finalizada ✅
 Alta | Saque de dinheiro | Permitir que os usuários retirem dinheiro de suas contas bancárias. | Finalizada ✅
 Baixa | Alteração de Senha | Permitir que os usuários alterem suas senhas de acesso ao sistema. | Finalizada ✅
-Média | Exclusão de Senha | Permitir que os usuários excluam suas contas, se desejarem. | Finalizada ✅
+Média | Exclusão de Conta | Permitir que os usuários excluam suas contas, se desejarem. | Finalizada ✅
 Média | Visualização do Extrato Bancário | Permitir que os usuários vejam o histórico de transações e o saldo de suas contas. | Finalizada ✅
 
 <h2>Principais tecnologias: </h2>
