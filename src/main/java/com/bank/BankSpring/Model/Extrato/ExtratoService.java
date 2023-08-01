@@ -15,4 +15,7 @@ public class ExtratoService {
     public List<Extrato> buscarExtratoPorCpf(String cpf){
         return extratoRepository.findByCpf(cpf);
     }
+    public void inserirExtrato(Extrato extrato){
+        extratoRepository.save(extrato);
+    }
 }

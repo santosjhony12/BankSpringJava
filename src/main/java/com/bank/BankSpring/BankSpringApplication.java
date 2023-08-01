@@ -13,6 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,6 +38,7 @@ public class BankSpringApplication implements CommandLineRunner {
 	}
 
 	Cliente cliente = new Cliente();
+	Extrato extrato = new Extrato();
 	public int login(String cpf, String senha){
 		cliente = clienteService.buscarClientePorCpf(cpf);
 		if (cliente != null && senha.equals(cliente.getSenha())){
@@ -57,6 +60,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		ContaCorrente contaCorrente	= new ContaCorrente();
 		/*Extrato extrato = new Extrato();*/
 		Scanner scanner = new Scanner(System.in);
+		DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 		/*DECLARAÇÃO DE VARIAVEIS DE CONTROLE*/
 		int acesso = 0;
@@ -293,7 +297,9 @@ public class BankSpringApplication implements CommandLineRunner {
 									correnteService.transferir(contaCorrente);
 									System.out.printf("\n");
 									tracejado();
-									System.out.println("\nTransferência realizada com sucesso..");
+									registrarExtrato("TRANSFERÊNCIA", String.valueOf(valorTransferencia), "-", "CORRENTE");
+									System.out.println("TRANSFERÊNCIA REALIZADA COM SUCESSO..");
+									tracejado();
 								}
 							}
 						}
@@ -314,7 +320,9 @@ public class BankSpringApplication implements CommandLineRunner {
 									contaPoupanca.transferir(valorTransferencia);
 									poupancaService.transferir(contaPoupanca);
 									tracejado();
-									System.out.println("\nTransferência realizada com sucesso..");
+									registrarExtrato("TRANSFERÊNCIA", String.valueOf(valorTransferencia), "-", "POUPANÇA");
+									System.out.println("TRANSFERÊNCIA REALIZADA COM SUCESSO...");
+									tracejado();
 								}
 							}
 						}
@@ -341,7 +349,9 @@ public class BankSpringApplication implements CommandLineRunner {
 								correnteService.transferir(contaCorrente);
 								System.out.printf("\n");
 								tracejado();
-								System.out.println("\nTransferência realizada com sucesso..");
+								registrarExtrato("TRANSFERÊNCIA", String.valueOf(valorTransferencia), "-", "CORRENTE");
+								System.out.println("TRANSFERÊNCIA REALIZADA COM SUCESSO...");
+								tracejado();
 							}
 						}
 					} else if (contaPoupanca != null) {
@@ -364,7 +374,9 @@ public class BankSpringApplication implements CommandLineRunner {
 								poupancaService.transferir(contaPoupanca);
 								System.out.printf("\n");
 								tracejado();
-								System.out.println("\nTransferência realizada com sucesso..");
+								registrarExtrato("TRANSFERÊNCIA", String.valueOf(valorTransferencia), "-", "POUPANÇA");
+								System.out.println("TRANSFERÊNCIA REALIZADA COM SUCESSO...");
+								tracejado();
 							}
 						}
 
@@ -416,7 +428,9 @@ public class BankSpringApplication implements CommandLineRunner {
 												correnteService.sacar(contaCorrente);
 												System.out.printf("\n");
 												tracejado();
-												System.out.println("\nSaque realizado com sucesso..");
+												registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "CORRENTE");
+												System.out.println("SAQUE REALIZADO COM SUCESSO...");
+												tracejado();
 											}
 										}
 										}
@@ -439,7 +453,9 @@ public class BankSpringApplication implements CommandLineRunner {
 												correnteService.sacar(contaCorrente);
 												System.out.printf("\n");
 												tracejado();
-												System.out.println("\nSaque realizado com sucesso..");
+												registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "CHEQUE ESPECIAL");
+												System.out.println("SAQUE REALIZADO COM SUCESSO...");
+												tracejado();
 											}
 										}
 
@@ -466,7 +482,9 @@ public class BankSpringApplication implements CommandLineRunner {
 											correnteService.sacar(contaCorrente);
 											System.out.printf("\n");
 											tracejado();
-											System.out.println("\nSaque realizado com sucesso..");
+											registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "CORRENTE");
+											System.out.println("SAQUE REALIZADO COM SUCESSO...");
+											tracejado();
 										}
 									}
 								}
@@ -494,7 +512,9 @@ public class BankSpringApplication implements CommandLineRunner {
 									contaPoupanca.sacar(valorSaque);
 									poupancaService.sacar(contaPoupanca);
 									tracejado();
-									System.out.println("\nSaque realizado com sucesso..");
+									registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "POUPANÇA");
+									System.out.println("SAQUE REALIZADO COM SUCESSO...");
+									tracejado();
 								}
 							}
 							}
@@ -531,7 +551,9 @@ public class BankSpringApplication implements CommandLineRunner {
 												correnteService.sacar(contaCorrente);
 												System.out.printf("\n");
 												tracejado();
-												System.out.println("\nSaque realizado com sucesso..");
+												registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "CORRENTE");
+												System.out.println("SAQUE REALIZADO COM SUCESSO...");
+												tracejado();
 											}
 										}
 									}
@@ -553,7 +575,9 @@ public class BankSpringApplication implements CommandLineRunner {
 											correnteService.sacar(contaCorrente);
 											System.out.printf("\n");
 											tracejado();
-											System.out.println("\nSaque realizado com sucesso..");
+											registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "CHEQUE ESPECIAL");
+											System.out.println("SAQUE REALIZADO COM SUCESSO...");
+											tracejado();
 										}
 									}
 
@@ -582,7 +606,9 @@ public class BankSpringApplication implements CommandLineRunner {
 								poupancaService.sacar(contaPoupanca);
 								System.out.printf("\n");
 								tracejado();
-								System.out.println("\nSaque realizado com sucesso..");
+								registrarExtrato("SAQUE", String.valueOf(valorSaque), "-", "POUPANÇA");
+								System.out.println("SAQUE REALIZADO COM SUCESSO...");
+								tracejado();
 							}
 						}
 						}
@@ -613,6 +639,7 @@ public class BankSpringApplication implements CommandLineRunner {
 							try{
 								contaCorrente.depositar(valor);
 								correnteService.depositar(contaCorrente);
+								registrarExtrato("DEPÓSITO", String.valueOf(valor), "+", "CORRENTE");
 								tracejado();
 								System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
 								tracejado();
@@ -625,6 +652,7 @@ public class BankSpringApplication implements CommandLineRunner {
 								contaPoupanca.depositar(valor);
 								poupancaService.depositar(contaPoupanca);
 								tracejado();
+								registrarExtrato("DEPÓSITO", String.valueOf(valor), "+", "POUPANÇA");
 								System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
 								tracejado();
 							}catch (Exception e){
@@ -643,6 +671,7 @@ public class BankSpringApplication implements CommandLineRunner {
 							contaPoupanca.depositar(valor);
 							poupancaService.depositar(contaPoupanca);
 							tracejado();
+							registrarExtrato("DEPÓSITO", String.valueOf(valor), "+", "POUPANÇA");
 							System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
 							tracejado();
 						}catch (Exception e){
@@ -653,6 +682,7 @@ public class BankSpringApplication implements CommandLineRunner {
 						try{
 							contaCorrente.depositar(valor);
 							correnteService.depositar(contaCorrente);
+							registrarExtrato("DEPÓSITO", String.valueOf(valor), "+", "CORRENTE");
 							tracejado();
 							System.out.println("DEPÓSITO REALIZADO COM SUCESSO");
 							tracejado();
@@ -674,6 +704,7 @@ public class BankSpringApplication implements CommandLineRunner {
 						System.out.println("\n");
 						System.out.println("Data: "+extrato.getDataAcao());
 						System.out.println("Descrição: "+extrato.getDescricao());
+						System.out.println("Tipo Conta: "+extrato.getTipoConta());
 					}
 					tracejado();
 				}
@@ -692,7 +723,7 @@ public class BankSpringApplication implements CommandLineRunner {
 						cliente.setSenha(novaSenha);
 						clienteService.atualizarSenha(cliente);
 						tracejado();
-						System.out.println("Senha Alterada com Sucesso!");
+						System.out.println("SENHA ALTERADA COM SUCESSO!");
 						tracejado();
 					}catch (Exception e){
 						System.out.println("Alguma coisa de errado aconteceu! Entre em contato com o seu Administrador.");
@@ -796,6 +827,12 @@ public class BankSpringApplication implements CommandLineRunner {
 
 		return true;
 	}
-
+	public void registrarExtrato(String tipoTransacao, String valor, String sinal, String tipoconta){
+		extrato.setDescricao(tipoTransacao+"......."+sinal+valor);
+		extrato.setDataAcao(LocalDate.now());
+		extrato.setCpf(cliente.getCpf());
+		extrato.setTipoConta(tipoconta);
+		extratoService.inserirExtrato(extrato);
+	}
 
 }

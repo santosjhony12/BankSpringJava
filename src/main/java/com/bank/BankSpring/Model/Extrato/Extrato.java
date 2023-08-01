@@ -23,4 +23,6 @@ public class Extrato {
     private String descricao;
     @Column(name = "cpf_cliente")
     private String cpf;
+    @Column(name = "tipo_conta")
+    private String tipoConta;
 }
