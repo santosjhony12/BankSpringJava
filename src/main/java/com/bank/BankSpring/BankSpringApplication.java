@@ -94,35 +94,34 @@ public class BankSpringApplication implements CommandLineRunner {
 			scanner.nextLine();
 			System.out.println("\nDigite o seu nome: ");
 			String nome = scanner.nextLine();
-			cliente.setName(nome);
 
-			int control = 0;
-			boolean control2;
-			while (control == 0){
+			cliente = null; // Inicializa o objeto cliente com null
+			int control = 1;
+
+			while (control == 1) {
 				System.out.println("\nDigite o seu CPF: ");
 				cpf = scanner.next();
-				control2 = validarCPF(cpf);
+				boolean cpfValido = validarCPF(cpf);
 
-				/*VERIFICA SE JÁ EXISTE CPF CADASTRADO*/
-				cliente = clienteService.buscarClientePorCpf(cpf);
-				if (cliente != null){
+				if (!cpfValido) {
 					tracejado();
-					System.out.println("ESSE CPF JÁ É CADASTRADO");
+					System.out.println("CPF INVÁLIDO");
 					tracejado();
-				}else{
-					control = 1;
+				} else {
+					cliente = clienteService.buscarClientePorCpf(cpf);
+					if (cliente != null) {
+						tracejado();
+						System.out.println("ESSE CPF JÁ ESTÁ CADASTRADO");
+						tracejado();
+					} else {
+						control = 0;
+						cliente = new Cliente(); // Instancia o objeto cliente apenas quando não é encontrado na busca
+					}
 				}
-				/*VERIFICA SE O CPF É FALSO*/
-				if (control2 == false){
-					tracejado();
-					System.out.println("CPF INVALIDO");
-					tracejado();
-					control = 0;
-				}
-
 			}
 
-
+			cliente.setCpf(cpf);
+			cliente.setName(nome);
 			System.out.println("\nDigite sua senha:");
 			String senha = scanner.next();
 			cliente.setSenha(senha);
@@ -738,14 +737,20 @@ public class BankSpringApplication implements CommandLineRunner {
 						if (acao.equals("1")){
 							cpf = cliente.getCpf();
 							try{
-								poupancaService.excluirContaPorCpf(cpf);
-								acao = "1";
+								contaPoupanca = poupancaService.buscarDadosPorCpf(cpf);
+								if (contaPoupanca != null){
+									poupancaService.excluirContaPorCpf(cpf);
+									acao = "1";
+								}
 							}catch (Exception e){
 								e.printStackTrace();
 							}
 							try{
-								correnteService.excluirClientePorCpf(cpf);
-								acao = "1";
+								contaCorrente = correnteService.findByCpf(cpf);
+								if (contaCorrente != null){
+									correnteService.excluirClientePorCpf(cpf);
+									acao = "1";
+								}
 							}catch (Exception e){
 								e.printStackTrace();
 							}
