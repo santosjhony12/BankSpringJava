@@ -833,6 +833,7 @@ public class BankSpringApplication implements CommandLineRunner {
 		return true;
 	}
 	public void registrarExtrato(String tipoTransacao, String valor, String sinal, String tipoconta){
+		Extrato extrato = new Extrato();
 		extrato.setDescricao(tipoTransacao+"......."+sinal+valor);
 		extrato.setDataAcao(LocalDate.now());
 		extrato.setCpf(cliente.getCpf());
