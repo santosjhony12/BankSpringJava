@@ -1,5 +1,6 @@
 package com.BankSpring.Model.Controller;
 
+import com.BankSpring.Model.Exception.ClienteNotFoundException;
 import com.BankSpring.Model.Service.ClienteService;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class ClienteController {
 
     ClienteRepository clienteRepository;
     ClienteService clienteService;
-    @GetMapping("/carro")
+    @GetMapping("/clientes")
     public List<Cliente> getAllClientes(){
         return clienteRepository.findAll();
     }
@@ -25,13 +26,23 @@ public class ClienteController {
         return clienteRepository.save(cliente);
     }
 
-    @GetMapping("/cliente/{id}")
-    public Optional<Cliente> getClienteByCpf(@PathVariable Long id){
-        return clienteRepository.findById(id);
+    @GetMapping("/cliente/{cpf}")
+    public Cliente buscarClientePorCpf(@PathVariable String cpf){
+        return clienteService.buscarClientePorCpf(cpf);
     }
 
-    @DeleteMapping("/cliente/{cpf}")
-    public void deleteCliente(@PathVariable String cpf){
-        clienteService.excluirClientePorCpf(cpf);
+    @DeleteMapping("/deleteCliente/{id}")
+    public void excluirClientePorId(@PathVariable Long id){
+        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
+
+        if(optionalCliente.isPresent()){
+            clienteRepository.deleteById(id);
+        }else{
+            throw new ClienteNotFoundException("Cliente não encontrado");
+        }
+    }
+    @PutMapping("/alterarSenha/{id}")
+    public Cliente atualizarSenha(@PathVariable Long id, String senha){
+        return clienteService.atualizarSenha(id, senha);
     }
 }
