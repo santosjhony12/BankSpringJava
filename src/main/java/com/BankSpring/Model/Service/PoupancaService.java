@@ -12,12 +12,6 @@ public class PoupancaService {
         this.poupancaRepository = poupancaRepository;
     }
 
-    public void inserirContaPoupanca(ContaPoupanca contaPoupanca){
-        poupancaRepository.save(contaPoupanca);
-    }
-    public ContaPoupanca buscarDadosPorCpf(String cpf){
-        return poupancaRepository.findByCpf(cpf);
-    }
     public ContaPoupanca transferir(ContaPoupanca contaPoupanca){
         return poupancaRepository.save(contaPoupanca);
     }
@@ -26,14 +20,5 @@ public class PoupancaService {
     }
     public ContaPoupanca depositar(ContaPoupanca contaPoupanca){
         return poupancaRepository.save(contaPoupanca);
-    }
-    public void excluirContaPorCpf(String cpf) {
-        ContaPoupanca contaPoupanca = buscarDadosPorCpf(cpf);
-        if (contaPoupanca != null) {
-            poupancaRepository.delete(contaPoupanca);
-            System.out.println("Conta poupança excluída com sucesso");
-        } else {
-            throw new ClienteNotFoundException("Não possui conta poupança");
-        }
     }
 }

@@ -21,7 +21,7 @@ public class ClienteController {
         return clienteRepository.findAll();
     }
 
-    @PostMapping("/cliente")
+    @PostMapping("/cadastoCliente")
     public Cliente saveCliente(@RequestBody Cliente cliente){
         return clienteRepository.save(cliente);
     }
