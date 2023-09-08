@@ -3,6 +3,7 @@ package com.BankSpring.Model.Controller;
 import com.BankSpring.Model.Exception.ClienteNotFoundException;
 import com.BankSpring.Model.Service.ClienteService;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.BankSpring.Model.DTO.Cliente;
 import com.BankSpring.Model.Repository.ClienteRepository;
@@ -16,6 +17,12 @@ public class ClienteController {
 
     ClienteRepository clienteRepository;
     ClienteService clienteService;
+
+    @Autowired
+    public ClienteController(ClienteRepository clienteRepository, ClienteService clienteService) {
+        this.clienteRepository = clienteRepository;
+        this.clienteService = clienteService;
+    }
     @GetMapping("/clientes")
     public List<Cliente> getAllClientes(){
         return clienteRepository.findAll();
@@ -41,7 +48,7 @@ public class ClienteController {
             throw new ClienteNotFoundException("Cliente não encontrado");
         }
     }
-    @PutMapping("/alterarSenha/{id}")
+    @PutMapping("/alterarSenha")
     public Cliente atualizarSenha(@PathVariable Long id, String senha){
         return clienteService.atualizarSenha(id, senha);
     }
