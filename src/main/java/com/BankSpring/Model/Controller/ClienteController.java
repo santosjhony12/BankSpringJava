@@ -9,6 +9,7 @@ import com.BankSpring.Model.DTO.Cliente;
 import com.BankSpring.Model.Repository.ClienteRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class ClienteController {
         return clienteRepository.findAll();
     }
 
-    @PostMapping("/cadastoCliente")
+    @PostMapping("/cadastroCliente")
     public Cliente saveCliente(@RequestBody Cliente cliente){
         return clienteRepository.save(cliente);
     }
@@ -49,7 +50,9 @@ public class ClienteController {
         }
     }
     @PutMapping("/alterarSenha")
-    public Cliente atualizarSenha(@PathVariable Long id, String senha){
+    public Cliente atualizarSenha(@RequestBody Map<String, Object> requestBody){
+        Long id = ((Number) requestBody.get("id")).longValue();
+        String senha = (String) requestBody.get("senha");
         return clienteService.atualizarSenha(id, senha);
     }
 }

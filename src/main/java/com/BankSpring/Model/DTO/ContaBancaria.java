@@ -23,8 +23,6 @@ public class ContaBancaria {
 
     @Column(name = "CPF_CLIENTE")
     private String cpf;
-    @Column(name = "TIPO_CONTA")
-    private String tipo;
 
     public void transferir(double valor){
         this.saldo -= valor;

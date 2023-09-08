@@ -3,11 +3,14 @@ package com.BankSpring.Model.Controller;
 import com.BankSpring.Model.DTO.ContaBancaria;
 import com.BankSpring.Model.Repository.ContaRepository;
 import com.BankSpring.Model.Service.ContaService;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -15,17 +18,19 @@ public class ContaController {
     private final ContaRepository contaRepository;
     private final ContaService contaService;
 
+    @Autowired
     public ContaController(ContaRepository contaRepository, ContaService contaService){
         this.contaService = contaService;
         this.contaRepository = contaRepository;
     }
 
-    @GetMapping("/contasPoupanca")
+
+    @GetMapping("/contas")
     public List<ContaBancaria> buscarPoupanca(){
         return contaRepository.findAll();
     }
 
-    @GetMapping("/contaPoupanca/{id}")
+    @GetMapping("/conta/{id}")
     public ResponseEntity<ContaBancaria> buscarContaPorId(@PathVariable Long id){
         Optional<ContaBancaria> optionalContaPoupanca = contaRepository.findById(id);
 
@@ -35,13 +40,15 @@ public class ContaController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/novaContaPoupanca")
+    @PostMapping("/novaConta")
     public ContaBancaria novaPoupanca(@RequestBody ContaBancaria contaPoupanca){
         return contaRepository.save(contaPoupanca);
     }
 
     @PutMapping("/transferir")
-    public ResponseEntity<ContaBancaria> transferir(@RequestParam Long id, double valor){
+    public ResponseEntity<ContaBancaria> transferir(@RequestBody Map<String, Object> requestBody){
+        Long id = ((Number) requestBody.get("id")).longValue();
+        double valor = ((Number) requestBody.get("valor")).doubleValue();
         ContaBancaria result = contaService.transferir(id, valor);
         if (result!=null){
             return ResponseEntity.ok(result);
