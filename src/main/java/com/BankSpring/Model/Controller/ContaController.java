@@ -4,6 +4,7 @@ import com.BankSpring.Model.DTO.ContaBancaria;
 import com.BankSpring.Model.Repository.ContaRepository;
 import com.BankSpring.Model.Service.ContaService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ContaController {
             return ResponseEntity.notFound().build();
         }
     }
-
+GsonBuilderUtils
     @PostMapping("/novaContaPoupanca")
     public ContaBancaria novaPoupanca(@RequestBody ContaBancaria contaPoupanca){
         return contaRepository.save(contaPoupanca);
