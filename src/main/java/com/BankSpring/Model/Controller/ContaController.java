@@ -35,7 +35,6 @@ public class ContaController {
             return ResponseEntity.notFound().build();
         }
     }
-GsonBuilderUtils
     @PostMapping("/novaContaPoupanca")
     public ContaBancaria novaPoupanca(@RequestBody ContaBancaria contaPoupanca){
         return contaRepository.save(contaPoupanca);
