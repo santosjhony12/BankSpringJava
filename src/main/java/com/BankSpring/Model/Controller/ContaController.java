@@ -3,10 +3,8 @@ package com.BankSpring.Model.Controller;
 import com.BankSpring.Model.DTO.ContaBancaria;
 import com.BankSpring.Model.Repository.ContaRepository;
 import com.BankSpring.Model.Service.ContaService;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +21,6 @@ public class ContaController {
         this.contaService = contaService;
         this.contaRepository = contaRepository;
     }
-
 
     @GetMapping("/contas")
     public List<ContaBancaria> buscarPoupanca(){
@@ -57,7 +54,9 @@ public class ContaController {
         }
     }
     @PutMapping("/sacar")
-    public ResponseEntity<ContaBancaria> sacar(@RequestParam Long id, double valor){
+    public ResponseEntity<ContaBancaria> sacar(@RequestBody Map<String, Object> requestBody){
+        Long id = ((Number) requestBody.get("id")).longValue();
+        double valor = ((Number) requestBody.get("valor")).doubleValue();
         ContaBancaria result = contaService.sacar(id, valor);
         if(result!=null){
             return ResponseEntity.ok(result);
@@ -67,7 +66,9 @@ public class ContaController {
     }
 
     @PutMapping("/depositar")
-    public ResponseEntity<ContaBancaria> depositar(@RequestParam Long id, double valor){
+    public ResponseEntity<ContaBancaria> depositar(@RequestBody Map<String, Object> requestBody){
+        Long id = ((Number) requestBody.get("id")).longValue();
+        double valor = ((Number) requestBody.get("valor")).doubleValue();
         ContaBancaria result = contaService.depositar(id, valor);
 
         if(result!= null){
