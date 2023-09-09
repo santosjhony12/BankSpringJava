@@ -4,6 +4,8 @@ import com.BankSpring.Model.Exception.ClienteNotFoundException;
 import com.BankSpring.Model.Service.ClienteService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.BankSpring.Model.DTO.Cliente;
 import com.BankSpring.Model.Repository.ClienteRepository;
@@ -54,5 +56,22 @@ public class ClienteController {
         Long id = ((Number) requestBody.get("id")).longValue();
         String senha = (String) requestBody.get("senha");
         return clienteService.atualizarSenha(id, senha);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String, Object> requestBody){
+        String cpf = (String) requestBody.get("cpf");
+        String senha = (String) requestBody.get("senha");
+
+        Cliente cliente = clienteRepository.findByCpf(cpf);
+        if(cliente != null){
+            if(cliente.getSenha().equals(senha)){
+                return ResponseEntity.ok("Login bem sucedido");
+            }else{
+                return ResponseEntity.ok("Senha Incorreta");
+            }
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -5,14 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0435ab13-9183-445a-adff-d4238b4b01b8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ExtratoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/BankSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/BankSpring/BankSpringApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ContaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ContaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Repository/ExtratoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Repository/ExtratoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Service/ExtratoService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Controller/ContaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Controller/ContaController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Service/ExtratoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/BankSpringApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ClienteController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ContaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Controller/ExtratoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/DTO/Cliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/DTO/ContaBancaria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/DTO/Extrato.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Exception/ClienteNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Repository/ClienteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Repository/ContaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Repository/ExtratoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Service/ClienteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/BankSpring/Model/Service/ContaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/BankSpring/BankSpringApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/BankSpringApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Controller/ClienteController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Controller/ContaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Controller/ExtratoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/DTO/Cliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/DTO/ContaBancaria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/DTO/Extrato.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Exception/ClienteNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Repository/ClienteRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Repository/ContaRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Repository/ExtratoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Service/ClienteService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/BankSpring/Model/Service/ContaService.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,12 +74,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/santo/OneDrive/Documentos/IntelliJ Projects/BankSpring/BankSpring/BankSpring&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/santo/OneDrive/Documentos/IntelliJ Projects/BankSpring/BackEnd"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
