@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @NoArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ClienteController {
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.IdGeneratorType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,7 @@ public class Cliente {
     private String cpf;
     @Column(name = "senha")
     private String senha;
+    public Object getSenha() {
+        return this.senha;
+    }
 }
