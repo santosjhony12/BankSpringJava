@@ -1,0 +1,14 @@
+.class{
+  padding-bottom: 60%;
+  background-image: url("../IMG/img.png");
+  background-size:contain;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+}
+.escrita{
+  color: #fff;
+  margin: 5em 0em 0em 6em;
+  font-size: 1.4em;
+}

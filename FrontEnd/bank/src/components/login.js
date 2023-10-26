@@ -1,10 +1,10 @@
-import React, { useState } from 'react'; // Importe 'useState' e 'React'
+import React, { useState } from 'react'; 
 
 import axios from 'axios';
 
 function Login() {
-    const [cpf, setCpf] = useState(''); // Defina 'cpf' e 'setCpf' com 'useState'
-    const [senha, setSenha] = useState(''); // Defina 'senha' e 'setSenha' com 'useState'
+    const [cpf, setCpf] = useState(''); 
+    const [senha, setSenha] = useState(''); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
