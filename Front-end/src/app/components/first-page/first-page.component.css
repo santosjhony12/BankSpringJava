@@ -12,3 +12,55 @@
   margin: 5em 0em 0em 6em;
   font-size: 1.4em;
 }
+.cpf{
+  background-color: #fff;
+  width: 20%;
+  padding: 0em 1em 0em 1em;
+  height: 20em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 8em;
+  margin-left: 25em;
+  border-radius: 1.5em;
+}
+#inputField{
+  border: none;
+  border-bottom: solid .9px rgb(115, 115, 115);
+  outline: none;
+  width: 200px;
+  font-size: 1em;
+}
+#inputField:hover{
+  border-bottom: solid .9px #000;
+}
+.input-container {
+  position: relative;
+  margin: 20px;
+  margin-top: 3em;
+}
+label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  pointer-events: none;
+  transition: top 0.2s, font-size 0.2s;
+  margin-left: 1em;
+}
+
+input:focus + label, input:valid + label {
+  top: -20px;
+  font-size: 12px;
+  background-color: #fff;
+  padding: 0 5px;
+}
+
+button{
+  border-radius: 1em;
+  background-color: rgb(229, 229, 229);
+  color: rgb(158, 158, 158);
+  padding: 0.5em 3em 0.5em 3em;
+  border: none;
+  font-size: 1.3em;
+  margin: 1.3em 0em 0em 0em;
+}
