@@ -10,9 +10,11 @@
   <div class="cpf">
       <h2>Peça sua conta e cartão de crédito do Nubank</h2>
       <div class="input-container">
-        <input type="text" id="inputField" required>
-        <label for="inputField">Digite seu CPF</label>
+        <form>
+          <input type="text" [(ngModel)]="cpf" name="cpf" id="inputField" required >
+          <label for="inputField">Digite seu CPF</label>
+          <button>Continuar</button>
+        </form>
       </div>
-      <button>Continuar</button>
   </div>
 </div>

@@ -30,6 +30,9 @@
   outline: none;
   width: 200px;
   font-size: 1em;
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
 }
 #inputField:hover{
   border-bottom: solid .9px #000;
@@ -63,4 +66,11 @@ button{
   border: none;
   font-size: 1.3em;
   margin: 1.3em 0em 0em 0em;
+  cursor: pointer;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
 }

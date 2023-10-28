@@ -1,10 +1,10 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FirstPageComponent } from './components/first-page/first-page.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -12,7 +12,8 @@ import { FirstPageComponent } from './components/first-page/first-page.component
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

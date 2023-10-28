@@ -39,7 +39,7 @@ public class ClienteController {
 
     @GetMapping("/cliente/{cpf}")
     public Cliente buscarClientePorCpf(@PathVariable String cpf){
-        return clienteService.buscarClientePorCpf(cpf);
+        return clienteRepository.findByCpf(cpf);
     }
 
     @DeleteMapping("/deleteCliente/{id}")
